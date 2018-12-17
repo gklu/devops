@@ -1,0 +1,9 @@
+- name: create shell vm
+  cs_instance:
+    name: shell-vm-{{item}}
+    template: "{{templae}}"
+    zone: "{{zone}}"
+    service_offering: "{{service_offering}}"
+    disk_size: {{disk_size}}
+  with_sequence: count={{count}}
+  delegate_to: localhost
