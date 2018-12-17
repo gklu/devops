@@ -1,4 +1,4 @@
 - name: create cloudstack.ini file
   template:
     src: cloudstack.j2
-    dest: ../cloudstack.ini
+    dest: ./cloudstack.ini
