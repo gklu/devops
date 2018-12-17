@@ -1,0 +1,5 @@
+---
+- name: provision our VMs
+  hosts: cloudstack
+  roles:
+    - configure_cloudstack_credentials
