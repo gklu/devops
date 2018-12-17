@@ -4,6 +4,6 @@
     template: "{{templae}}"
     zone: "{{zone}}"
     service_offering: "{{service_offering}}"
-    disk_size: {{disk_size}}
-  with_sequence: count={{count}}
+    disk_size: "{{disk_size}}"
+  with_sequence: count="{{count}}"
   delegate_to: localhost
