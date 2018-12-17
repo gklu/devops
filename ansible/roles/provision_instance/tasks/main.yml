@@ -1,7 +1,7 @@
 - name: create shell vm
   cs_instance:
     name: shell-vm-{{item}}
-    template: "{{templae}}"
+    template: "{{template}}"
     zone: "{{zone}}"
     service_offering: "{{service_offering}}"
     disk_size: "{{disk_size}}"
