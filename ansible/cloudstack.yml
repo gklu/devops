@@ -1,5 +1,6 @@
 ---
 - name: provision our VMs
   hosts: cloudstack
+  connection: local
   roles:
     - configure_cloudstack_credentials
