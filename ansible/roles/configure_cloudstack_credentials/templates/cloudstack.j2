@@ -1,5 +1,5 @@
 [cloudstack]
-endpoint = "{{ endpoint_url|safe }}"
-key = "{{ api_key|safe }}"
-secret = "{{ api_secret|safe }}"
+endpoint = "{{ endpoint_url|regex_replace('^[\'"]?(.*)[\'"]?$','"\\1"') }}"
+key = "{{ api_key|regex_replace('^[\'"]?(.*)[\'"]?$','"\\1"')}}"
+secret = "{{ api_secret|regex_replace('^[\'"]?(.*)[\'"]?$','"\\1"') }}"
 timeout = 30
