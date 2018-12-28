@@ -1,5 +1,5 @@
 [cloudstack]
-endpoint = "{{ endpoint_url }}"
-key = "{{ api_key }}"
-secret = "{{ api_secret }}"
+endpoint = "{{ endpoint_url|safe }}"
+key = "{{ api_key|safe }}"
+secret = "{{ api_secret|safe }}"
 timeout = 30
