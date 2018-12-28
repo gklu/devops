@@ -4,4 +4,4 @@
   connection: local
   roles:
     - configure_cloudstack_credentials
-    - provision_instance
+   # - provision_instance
