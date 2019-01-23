@@ -1,8 +1,8 @@
-zone:   "{{zone}}"
-disk_size : "{{disk_size}}"
+zone:   {{zone}}
+disk_size : {{disk_size}}
 template: "{{template}}"
-service_offering: "{{service_offering}}"
+service_offering: {{service_offering}}
 count: "{{count}}"
-endpoint: "{{endpoint}}"
-api_key: "{{api_key}}"
-api_secret: "{{api_secret}}"
+endpoint: {{endpoint}}
+api_key: {{api_key}}
+api_secret: {{api_secret}}
