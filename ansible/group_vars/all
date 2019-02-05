@@ -1,4 +1,4 @@
-zone:   "{{zone}}""
+zone:   "{{zone}}"
 disk_size : "{{disk_size}}"
 template: "{{template}}"
 service_offering: "{{service_offering}}"
