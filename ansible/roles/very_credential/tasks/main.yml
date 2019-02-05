@@ -1,0 +1,2 @@
+- name: verify cloudstack.ini
+  command: cat ./cloudstack.ini
