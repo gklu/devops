@@ -2,3 +2,4 @@ sftp_group: sftpusers
 username: "{{ username }}"
 sftp_user_home: /home/{{ username }}
 
+
