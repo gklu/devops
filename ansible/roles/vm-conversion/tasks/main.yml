@@ -1,0 +1,202 @@
+- name: find all ova files in the user directory
+  find:
+    paths: "{{ sftp_user_home }}/VMImages"
+    patterns: "*.ova"
+  register: ova_matched
+
+- name: construct list of all ova files
+  set_fact:
+    ova_files: "{{ ova_matched.files | map(attribute='path')|list }}"  
+
+- name: print out all ova files
+  debug:
+    msg: "{{ item | basename }}"
+  with_items:
+    - "{{ ova_files }}"
+
+- name: find all iso files in the user directory
+  find: 
+    patterns: "*.iso"
+    path: "{{ sftp_user_home }}/VMImages"
+  register: iso_matched
+  # ignore_errors: True  
+
+- name: construct list of isos
+  set_fact:
+    iso_files: "{{ iso_matched.files | map(attribute='path')|list }}"
+
+- name: print out all list isos
+  debug:
+    msg: "{{ item | basename }}"
+  with_items:
+    - "{{ iso_files }}"
+
+# # - name: convert the ova to qcow2
+# #   command:  virt-v2v -i ova {{ item }} -o libvirt -of qcow2 -os migration_pool
+# #   with_items:
+# #     - "{{ ova_matched.files | map(attribute='path')|list }}"
+# #   register: virt_v2v_output
+
+- name: extract all the ova
+  unarchive:
+    src: "{{ item }}"
+    dest: "{{ sftp_user_home }}/VMImages"
+    remote_src: yes
+  with_items:
+    - "{{ ova_files }}"
+  when: ova_files|length > 0
+
+- name: find all vmdk files in the user directory
+  find:
+    paths: "{{ sftp_user_home }}/VMImages"
+    patterns: "*.vmdk"
+  register: vmdk_matched 
+
+
+- name: construct list of vmdk files
+  set_fact:
+    vmdk_files: "{{ vmdk_matched.files | map(attribute='path')|list }}"
+
+- name: print out all vmdk files
+  debug:
+    msg: "{{ item | basename }}"
+  with_items:
+    - "{{ vmdk_files }}"
+
+- name: find all ovf files
+  find: 
+    patterns: "*.ovf"
+    path: "{{ sftp_user_home }}/VMImages"
+  register: ovf_matched
+  
+- name: construct list of all ovf files
+  set_fact:
+    ovf_files: "{{ ovf_matched.files | map(attribute='path')|list }}"
+
+- name: print out all ovf files
+  debug:
+    msg: "{{ item | basename }}"
+  with_items:
+    - "{{ ovf_files }}"
+
+- name: parse all the ovf files
+  parse_ovf:
+    path: "{{ sftp_user_home }}/VMImages/{{ item | basename }}"
+  with_items:
+    - "{{ ovf_files }}"
+  register: parsed_ovf
+  when: ova_files|length > 0
+
+- name: set instance facts
+  set_fact:
+    instance_name: "{{ parsed_ovf.results| map(attribute='vm_name')|first }}"
+    root_volume: "{{ parsed_ovf.results[0].root_volume | json_query('file')}}"
+    os_type: "{{ parsed_ovf.results| map(attribute='os_type')|first }}"
+    volumes: "{{ parsed_ovf.results[0].volumes|map(attribute='file')|list}}"
+  when: ova_files|length > 0
+
+- name: display vm facts
+  debug:
+    msg: "{{ instance_name }} - {{ os_type }} -{{ root_volume }} - {{ volumes }}"
+  when: ova_files|length > 0
+
+
+- name: convert all vmdk to qcow2
+  command: qemu-img convert -O qcow2 {{ item | basename }} {{ item | basename | splitext | first }}.qcow2
+  args:
+    chdir: "{{ sftp_user_home }}/VMImages"
+  with_items:
+    - "{{ vmdk_files }}"
+  register: conversion_output
+  when: vmdk_files|length > 0
+
+
+- name: register the isos if one exists
+  delegate_to: localhost
+  when: iso_files|length > 0
+  block:
+    - name: register the iso
+      cs_iso:
+        name: "{{ item | basename | regex_replace('(_)','-') }}.iso"
+        url: https://s3.amazonaws.com/jilivay.com/downloads/{{ item | basename | regex_replace('(_)','-') }}
+        os_type: "{{ iso_os_type }}"
+        is_featured: yes
+        bootable: yes
+        iso_filter: featured
+      with_items:
+        - "{{ iso_files }}"
+      register: iso_output
+
+    - debug: 
+        msg: "{{ iso_output }}"
+  
+
+- name: register,upload volumes, create instance and attach volume
+  delegate_to: localhost
+  when:
+    - ova_files|length > 0
+    - vmdk_files|length > 0
+  block:
+    - name: register templates 
+      cs_template:
+        name: "{{ instance_name }}"
+        url: "https://s3.amazonaws.com/jilivay.com/downloads/{{ root_volume | splitext | first }}.qcow2"
+        hypervisor: KVM
+        format: QCOW2
+        zone: "{{ zone }}"
+        os_type: CentOS 6 (64-bit)
+        is_extractable: yes
+        is_featured: yes
+        is_public: yes
+
+    - name: upload volume
+      cs_upload_volume:
+        name: "{{ item | splitext | first }}"
+        format: QCOW2
+        url: https://s3.amazonaws.com/jilivay.com/downloads/{{ item | splitext | first }}.qcow2
+        state: upload
+      with_items:
+        - "{{ volumes }}"
+      when: volumes|length > 0
+
+    - name: Poll the template registration till success
+      cs_template:
+        name: "{{ instance_name }}"
+        template_filter: self
+        zone: "{{ zone }}"
+        is_extractable: yes
+        is_public: yes
+      register: poll
+      until: poll.status == "Download Complete"
+      retries: 100
+      delay: 10
+
+    - name: create instance from the template
+      cs_instance:
+        name: "{{ instance_name | regex_replace('(_)','-') }}"
+        display_name: "{{ instance_name }}"
+        template: "{{ instance_name }}"
+        network: app
+        service_offering: t2.large
+        state: started
+      register: vm_state
+    
+    - name: show vm state
+      debug:
+        msg: "{{ vm_state }}"
+
+
+    - name: attach all the volumes to instance 
+      cs_volume:
+        name:  "{{ item | splitext | first }}"
+        vm: "{{ instance_name }}"
+        state: attached
+      with_items:
+        - "{{ volumes }}"
+      when:
+        - vm_state.state == 'Running'
+        - volumes|length > 0
+
+
+
+
