@@ -1,0 +1,11 @@
+---
+- name: create sftp users
+  hosts: "{{ host  }}"
+  become: yes
+  become_user: root
+  become_method: sudo
+  #user: vdonkor
+
+  roles:
+    - create_sftp_users
+    # - vm-conversion

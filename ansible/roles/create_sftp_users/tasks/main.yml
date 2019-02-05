@@ -1,0 +1,49 @@
+---
+
+- name: ensure pwgen utility is available
+  yum:
+    name: pwgen
+    state: present
+
+- name: Let  generate password for the new sftp user
+  command: pwgen -cn 12 1
+  register: sftp_password
+
+- name: print the password
+  debug:
+    msg: "The {{ username }} password is {{ sftp_password.stdout  }}"
+
+- name: Let us create the new sftp user
+  user:
+    name: "{{ username }}"
+    shell: /bin/nologin
+    groups: "{{ sftp_group }}"
+    append: yes
+    
+- name: set {{ username }} password
+  shell: echo {{ sftp_password.stdout }} | passwd {{ username }} --stdin
+  register: passwd_changed
+
+- name: print the password
+  debug:
+    msg: "{{ passwd_changed.stdout }}" 
+
+- name: chroot user - user only sees his/her directories. Nothing else
+  file:
+    path: "{{sftp_user_home }}"
+    owner: root
+    group: "{{ username }}"
+    mode: 0755
+
+- name: create VMIamges and ISO directories
+  file:
+    path: "{{sftp_user_home}}/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  with_items:
+    - VMImages
+    - ISO
+
+
