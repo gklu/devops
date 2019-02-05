@@ -1,2 +1,6 @@
 - name: verify cloudstack.ini
   command: cat ./cloudstack.ini
+  register: output
+
+- debug:
+    msg: "{{ output.stdout }}"
