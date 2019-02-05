@@ -1,6 +1,6 @@
 ---
 - name: setup credential
-  hosts: localhost
+  hosts: cloudstack
 
   roles:
     - configure_cloudstack_credentials
