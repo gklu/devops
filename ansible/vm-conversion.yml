@@ -1,11 +1,4 @@
 ---
-- name: setup credential
-  hosts: cloudstack
-
-  roles:
-    - configure_cloudstack_credentials
-    - very_credential
-
 - name: Perform vm conversion
   hosts: "{{ host  }}"
   become: yes
@@ -13,4 +6,6 @@
   become_method: sudo
 
   roles:
+    - configure_cloudstack_credentials
+    - very_credential
     - vm-conversion

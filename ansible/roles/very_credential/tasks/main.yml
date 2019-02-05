@@ -1,9 +1,9 @@
 - name: verify cloudstack.ini
-  command: pwd && cat ./cloudstack.ini
+  shell: pwd && cat ./cloudstack.ini
   register: output
 
-- name: copy ./cloudstack.ini to /root/.cloudstack.ini
-  command: cp ./cloudstack.ini /root/.cloudstack.ini
+# - name: copy ./cloudstack.ini to /root/.cloudstack.ini
+#   command: cp ./cloudstack.ini /root/.cloudstack.ini
 
 - debug:
     msg: "{{ output.stdout }}"
