@@ -7,5 +7,4 @@
 
   roles:
     - configure_cloudstack_credentials
-    - very_credential
     - vm-conversion
