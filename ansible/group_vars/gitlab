@@ -1,0 +1,4 @@
+url: "https://mygitlab.evay.cloud"
+email_username: "{{email_username}}"
+email_password: "{{email_password}}"
+cert_dir: /etc/gitlab/ssl

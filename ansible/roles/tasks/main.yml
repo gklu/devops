@@ -1,0 +1,83 @@
+- name: install systems packages needed for docker
+  yum:
+    name: 
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+      - python-setuptools
+      - epel-release
+    state: latest
+  register: output
+
+- debug:
+    msg: "{{output}}"
+  
+
+- name: install pip and docker-compose
+  command: "{{ item }}"
+  with_items:
+    - "easy_install pip"
+    - "pip install docker-compose"
+  register: output
+
+- debug:
+    msg: "{{output}}"
+
+# - name: add docker and epel repositories 
+#   yum_repository:
+#     name: "{{item.key}}"
+#     description: "{{item.key}} yum repo"
+#     baseurl: "{{item.value}}"
+#   with_dict: 
+#     - "{{ repo }}"
+#   register: output
+
+- debug:
+    msg: "{{output }}"
+
+- name: add docker repo 
+  command: >
+    yum-config-manager --add-repo 
+    https://download.docker.com/linux/centos/docker-ce.repo
+  register: output
+
+- debug:
+    msg: "{{output }}"
+
+- name: install docker
+  yum:
+    name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+    state: latest
+  register: output
+
+- debug:
+    msg: "{{output }}"
+ 
+- name: enable and start docker
+  service:
+    name: docker
+    enabled: yes
+    state: restarted
+  register: output
+
+- debug:
+    msg: "{{output}}"
+
+- name: enable remote api execution
+  lineinfile:
+    path: /usr/lib/systemd/system/docker.service
+    regexp: '^ExecStart='
+    line: 'ExecStart=/usr/bin/dockerd -H unix:// -H tcp://0.0.0.0:2375'
+  notify:
+    - restart docker
+  register: output
+
+- debug:
+    msg: "{{output}}"
+
+- name: reload systemctl daemon
+  command: systemctl daemon-reload
+  register: output
+
+- debug:
+    msg: "{{output.stdout }}"

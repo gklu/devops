@@ -1,0 +1,196 @@
+- name: install system packages
+  yum:
+    name:
+      - httpd
+      - mariadb-server
+      - mariadb
+      - epel-release
+      - gcc
+      - mariadb-devel
+      - python2-devel
+    state: latest
+- name: install remi and zabbix repo
+  yum:
+    name: 
+      - http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+      - https://repo.zabbix.com/zabbix/4.1/rhel/7/x86_64/zabbix-release-4.1-1.el7.noarch.rpm
+    state: present
+
+
+- name: disable php5 from remi remi repo
+  command: yum-config-manager --disable remi-php54
+
+- name: enable php7 from remi remi repo
+  command: yum-config-manager --enable remi-php72
+
+- name: install php7 and related packages
+  yum:
+    state: present
+    name:
+      - php 
+      - php-pear 
+      - php-cgi 
+      - php-common 
+      - php-mbstring 
+      - php-snmp 
+      - php-gd 
+      - php-xml 
+      - php-mysql 
+      - php-gettext 
+      - php-bcmath
+      - php-pecl-mysql
+      - php-mysqlnd
+
+- name: install zabbix 
+  yum:
+    state: present
+    name:
+      - zabbix-server-mysql  
+      - zabbix-web-mysql 
+      - zabbix-agent 
+      - zabbix-get
+  
+- name: disable selinux
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: create document root
+  file:
+    path: "{{ document_root }}"
+    state: directory
+
+- name: configure vhost
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: vhost.conf.j2, dest: "{{ vhost_dir }}/{{ vhost_file }}" }
+    - { src: monitor.ini.j2, dest: /etc/php.d/monitor.ini }
+
+- name: append configure parameters - ServerSignature Off ServerTokens Prod
+  blockinfile:
+    path: /etc/httpd/conf/httpd.conf
+    insertafter: EOF
+    block: |
+      ServerSignature Off
+      ServerTokens Prod
+
+- name: open http and https ports
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items:
+    - http
+    - https
+
+- name: open port 10051 and 10050
+  firewalld:
+    port: 10050-10051/tcp
+    permanent: yes
+    state: enabled
+
+- name: reload firewalld
+  command: firewall-cmd --reload
+  register: output
+
+- name: start and enable httpd
+  service:
+    name: httpd
+    state: restarted
+    enabled: yes
+
+- name: start and enabled mariadb
+  service:
+    name: mariadb
+    state: restarted
+    enabled: yes
+
+# - name: delete anonymous server user
+#   mysql_user:
+#     login_user: root
+#     login_password: '{{ mysql_root }}'
+#     check_implicit_admin: yes
+#     user: ""
+#     host: "{{ item }}"
+#     state: absent
+#   with_items:
+#    - ""
+#    - "{{ ansible_nodename }}"
+#    - localhost
+- name: install mysql-connector-python 
+  command: easy_install  MySQL-python
+
+- name: Change root user password on first run
+  mysql_user: 
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+    name: root
+    password: "{{ mysql_root_password }}"
+    priv: "*.*:ALL,GRANT"
+    host: "{{ item }}"
+  with_items:
+    - "{{ ansible_nodename }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: create a new zabbix database
+  mysql_db:
+    name: zabbix
+    state: present
+    login_user: root
+    login_password: "{{mysql_root_password}}"
+
+- name: create zabbix user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: zabbix
+    password: "{{ mysql_root_password }}"
+    priv: 'zabbix.*:ALL'
+    state: present
+    host: "{{ item }}"
+  with_items:
+    - "{{ ansible_nodename }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: check if zabbix schema exist or not
+  shell: mysql -uroot -p{{ mysql_root_password }} -e "select * from zabbix.users" | grep Admin
+  register: schema
+
+- name: import zabbix server schema
+  shell: zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p{{ mysql_root_password }} zabbix
+  register: output
+  when: schema is failed
+
+- debug:
+    msg: "{{ output }}"
+
+- name: set zabbix password
+  lineinfile:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^# DBPassword='
+    line: 'DBPassword={{mysql_root_password}}'
+    state: present
+
+- name: start and enabled zabbix
+  service:
+    name: zabbix-server
+    state: restarted
+    enabled: yes
+
+- name: start and enabled zabbix-agent
+  service:
+    name: zabbix-agent
+    state: restarted
+    enabled: yes
+
+
+
+

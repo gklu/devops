@@ -1,0 +1,2 @@
+postgres_data_dir: /local/postgress/data
+postgres_pass: "{{ postgres_pass }}"

@@ -1,0 +1,15 @@
+<VirtualHost *:80>
+    ServerName {{ url }}
+    ServerAlias {{ ansible_hostname }}
+    ServerAdmin admin@{{domain}}
+    
+    DocumentRoot {{document_root}}
+
+    <Directory {{document_root}}>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+    </Directory>
+
+    ErrorLog {{log_dir}}/{{error_log}}
+    CustomLog {{log_dir}}/{{access_log}} combined
+</VirtualHost>

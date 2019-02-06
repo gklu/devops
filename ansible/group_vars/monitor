@@ -1,0 +1,9 @@
+url: zabbix.evay.cloud
+domain: evay.cloud
+document_root: /var/www/zabbix.evay.cloud/public_html
+error_log: zabbix-error.log
+access_log: zabbix-access.log
+vhost_dir: /etc/httpd/conf.d/
+vhost_file: monitor.conf
+log_dir: /var/log/httpd
+mysql_root_password: "{{ mysql_root_password }}"

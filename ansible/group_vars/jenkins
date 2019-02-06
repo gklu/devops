@@ -1,0 +1,5 @@
+ jenkins_home: /local/jenkins
+dockerfile: "{{jenkins_home}}/dockerfile_jenkins"
+docker_compose_file: "{{jenkins_home}}/docker-compose.yml"
+jenkins_user: milcloud
+jenkins_password: "{{jenkins-password}}"
