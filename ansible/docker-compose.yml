@@ -1,0 +1,11 @@
+bind:
+  image: sameersbn/bind:latest
+  dns: 127.0.0.1
+  environment:
+    - ROOT_PASSWORD=rancom2001
+  ports:
+   - 10000:10000
+   - 53:53/udp
+  volumes:
+    - ./data:/data
+  restart: always
