@@ -170,6 +170,7 @@
 - name: check if zabbix schema exist or not
   shell: mysql -uroot -p{{ mysql_root_password }} -e "select * from zabbix.users" | grep Admin
   register: schema
+  ignore_errors: yes
 
 - name: import zabbix server schema
   shell: zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p{{ mysql_root_password }} zabbix
