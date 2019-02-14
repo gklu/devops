@@ -8,6 +8,7 @@
       - gcc
       - mariadb-devel
       - python2-devel
+      - firewalld
     state: latest
 - name: install remi and zabbix repo
   yum:
@@ -54,6 +55,12 @@
   selinux:
     policy: targeted
     state: permissive
+
+- name: start firewalld
+  service:
+    name: firewalld 
+    state: restarted
+    enabled: yes
 
 - name: create document root
   file:
