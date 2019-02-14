@@ -1,5 +1,5 @@
-url: zabbix.evay.cloud
-domain: evay.cloud
+url: monitor.mc2.cloud
+domain: mc2.cloud
 document_root: /var/www/zabbix.evay.cloud/public_html
 error_log: zabbix-error.log
 access_log: zabbix-access.log
