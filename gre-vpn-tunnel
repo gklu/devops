@@ -22,11 +22,11 @@ hash sha
 exit
 crypto keyring AUTH-KEY-RING
 local-address gigabitEthernet 1
-pre-shared-key address 52.7.168.8 key coi-extension
+pre-shared-key address 214.74.1.221 key extension
 exit
 crypto isakmp profile AUTH-PROFILE
 local-address gigabitEthernet 1
-match identity address 52.7.168.8
+match identity address 214.74.1.221
 keyring AUTH-KEY-RING
 exit
 crypto ipsec transform-set  AUTH-IPSEC-TRANSFORM esp-aes 128 esp-sha-hmac
@@ -42,7 +42,7 @@ Description *** Define GRE Tunnel interface ***
 ip address 172.16.1.1 255.255.255.252
 ip virtual-reassembly
 tunnel source gigabitEthernet 1
-tunnel destination 52.7.168.8
+tunnel destination 214.74.1.221
 tunnel mode ipsec ipv4
 tunnel protection ipsec profile AUTH-IPSEC-PROFILE
 ip tcp adjust-mss 1379
@@ -53,8 +53,7 @@ end
 ####################################
 config t
 router ospf 101
-no network 10.0.0.0 0.0.0.255 area 0
-no network 10.0.5.0 0.0.0.255 area 0
+no network 10.0.0.0 0.0.255.255 area 0
 network 172.16.1.0 0.0.0.3 area 0
 exit
 interface Tunnel102
@@ -74,11 +73,11 @@ hash sha
 exit
 crypto keyring AUTH-KEY-RING
 local-address gigabitEthernet 1
-pre-shared-key address 10.82.183.28 key extension
+pre-shared-key address 214.74.1.233 key extension
 exit
 crypto isakmp profile AUTH-PROFILE
 local-address gigabitEthernet 1
-match identity address 10.82.183.28
+match identity address 214.74.1.233
 keyring AUTH-KEY-RING
 exit
 crypto ipsec transform-set  AUTH-IPSEC-TRANSFORM esp-aes 128 esp-sha-hmac
@@ -94,7 +93,7 @@ Description *** Connecting On-premises DC to Cisco CSR ***
 ip address 172.16.1.2 255.255.255.252
 ip virtual-reassembly
 tunnel source gigabitEthernet 1
-tunnel destination 10.82.183.28
+tunnel destination 214.74.1.233
 tunnel mode ipsec ipv4
 tunnel protection ipsec profile AUTH-IPSEC-PROFILE
 ip tcp adjust-mss 1379
@@ -105,8 +104,7 @@ end
 ##################################
 config t
 router ospf 101
-network 192.168.0.0 0.0.0.255 area 0
-network 192.168.1.0 0.0.0.255 area 0
+network 10.20.0.0 0.0.255.255 area 0
 network 172.16.1.0 0.0.0.3 area 0
 exit
 interface Tunnel102
@@ -119,10 +117,10 @@ end
 config t
 ip access-list extended IPSEC-TRAFFIC
 remark VPN traffic
-permit gre host 10.82.183.28 host 52.7.168.8
+permit gre host 214.74.1.221 host 214.74.1.233
 exit
 crypto map TUNNEL-MAP 10 ipsec-isakmp
-set peer 52.7.168.8
+set peer 214.74.1.233
 set transform-set AUTH-IPSEC-TRANSFORM
 match address IPSEC-TRAFFIC
 exit
@@ -137,10 +135,10 @@ exit
 config t
 ip access-list extended IPSEC-TRAFFIC
 remark VPN traffic
-permit gre host 52.7.168.8 host 10.82.183.28
+permit gre host 214.74.1.233 host 214.74.1.221
 exit
 crypto map TUNNEL-MAP 10 ipsec-isakmp
-set peer 10.82.183.28
+set peer 214.74.1.221
 set transform-set AUTH-IPSEC-TRANSFORM
 match address IPSEC-TRAFFIC
 exit
