@@ -1,0 +1,153 @@
+config t
+hostname myvpn-x
+ip domain-name evay.cloud
+crypto key generate rsa
+line vty 0 4
+transport input ssh
+login local
+password
+exit
+username username password mypassword
+enable screet
+
+
+
+config t
+crypto isakmp policy 10
+encryption aes 128
+authentication pre-share
+group 2
+lifetime 28800
+hash sha
+exit
+crypto keyring AUTH-KEY-RING
+local-address gigabitEthernet 1
+pre-shared-key address 52.7.168.8 key coi-extension
+exit
+crypto isakmp profile AUTH-PROFILE
+local-address gigabitEthernet 1
+match identity address 52.7.168.8
+keyring AUTH-KEY-RING
+exit
+crypto ipsec transform-set  AUTH-IPSEC-TRANSFORM esp-aes 128 esp-sha-hmac
+mode tunnel
+exit
+crypto ipsec profile AUTH-IPSEC-PROFILE
+set pfs group2
+set security-association lifetime seconds 3600
+set transform-set AUTH-IPSEC-TRANSFORM
+exit
+interface Tunnel102
+Description *** Define GRE Tunnel interface ***
+ip address 172.16.1.1 255.255.255.252
+ip virtual-reassembly
+tunnel source gigabitEthernet 1
+tunnel destination 52.7.168.8
+tunnel mode ipsec ipv4
+tunnel protection ipsec profile AUTH-IPSEC-PROFILE
+ip tcp adjust-mss 1379
+no shutdown
+end
+
+
+####################################
+config t
+router ospf 101
+no network 10.0.0.0 0.0.0.255 area 0
+no network 10.0.5.0 0.0.0.255 area 0
+network 172.16.1.0 0.0.0.3 area 0
+exit
+interface Tunnel102
+tunnel path-mtu-discovery
+ip ospf mtu-ignore
+end
+######################################
+
+
+config t
+crypto isakmp policy 10
+encryption aes 128
+authentication pre-share
+group 2
+lifetime 28800
+hash sha
+exit
+crypto keyring AUTH-KEY-RING
+local-address gigabitEthernet 1
+pre-shared-key address 10.82.183.28 key extension
+exit
+crypto isakmp profile AUTH-PROFILE
+local-address gigabitEthernet 1
+match identity address 10.82.183.28
+keyring AUTH-KEY-RING
+exit
+crypto ipsec transform-set  AUTH-IPSEC-TRANSFORM esp-aes 128 esp-sha-hmac
+mode tunnel
+exit
+crypto ipsec profile AUTH-IPSEC-PROFILE
+set pfs group2
+set security-association lifetime seconds 3600
+set transform-set AUTH-IPSEC-TRANSFORM
+exit
+interface Tunnel102
+Description *** Connecting On-premises DC to Cisco CSR ***
+ip address 172.16.1.2 255.255.255.252
+ip virtual-reassembly
+tunnel source gigabitEthernet 1
+tunnel destination 10.82.183.28
+tunnel mode ipsec ipv4
+tunnel protection ipsec profile AUTH-IPSEC-PROFILE
+ip tcp adjust-mss 1379
+no shutdown
+end
+
+
+##################################
+config t
+router ospf 101
+network 192.168.0.0 0.0.0.255 area 0
+network 192.168.1.0 0.0.0.255 area 0
+network 172.16.1.0 0.0.0.3 area 0
+exit
+interface Tunnel102
+tunnel path-mtu-discovery
+ip ospf mtu-ignore
+end
+####################################
+
+####################################
+config t
+ip access-list extended IPSEC-TRAFFIC
+remark VPN traffic
+permit gre host 10.82.183.28 host 52.7.168.8
+exit
+crypto map TUNNEL-MAP 10 ipsec-isakmp
+set peer 52.7.168.8
+set transform-set AUTH-IPSEC-TRANSFORM
+match address IPSEC-TRAFFIC
+exit
+interface gigabitEthernet 1
+crypto map TUNNEL-MAP
+exit
+interface Tunnel102
+crypto map TUNNEL-MAP
+exit
+##########################################
+
+config t
+ip access-list extended IPSEC-TRAFFIC
+remark VPN traffic
+permit gre host 52.7.168.8 host 10.82.183.28
+exit
+crypto map TUNNEL-MAP 10 ipsec-isakmp
+set peer 10.82.183.28
+set transform-set AUTH-IPSEC-TRANSFORM
+match address IPSEC-TRAFFIC
+exit
+interface gigabitEthernet 1
+crypto map TUNNEL-MAP
+exit
+
+interface Tunnel102
+crypto map TUNNEL-MAP
+exit
