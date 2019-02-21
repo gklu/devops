@@ -9,6 +9,8 @@
       - mariadb-devel
       - python2-devel
       - firewalld
+      - mailx
+      - ssmtp
     state: latest
 - name: install remi and zabbix repo
   yum:
