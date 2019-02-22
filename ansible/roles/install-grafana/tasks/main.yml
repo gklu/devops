@@ -1,0 +1,48 @@
+- name: install system packages
+  yum:
+    name:
+      - initscripts 
+      - fontconfig
+      - freetype*
+      - urw-fonts
+    state: latest
+
+- name: configure grafana repo
+  template:
+    src: grafana.repo.j2
+    dest: /etc/yum.repo.d/grafana.repo
+
+- name: install grafana
+  yum:
+    name:
+      - grafana
+
+- name: open port 3000
+  firewalld:
+    port: 3000/tcp
+    permanent: yes
+    state: enabled
+
+- name: reload firewalld
+  command: firewall-cmd --reload
+  register: output
+
+- name: reload systemd daemon_reload
+  systemd:
+    daemon_reload: yes
+
+- name: start and enable grafana
+  service: 
+    name: grafana-server
+    state: restarted
+    enabled: yes
+
+- name: install zabbix plugin
+  command: grafana-cli plugins install alexanderzobnin-zabbix-app
+
+- name: restart grafana
+  service: 
+    name: grafana-server
+    state: restarted
+
+
