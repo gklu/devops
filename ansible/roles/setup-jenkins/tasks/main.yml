@@ -1,0 +1,57 @@
+
+- name: create file structure for the jenkins
+  file:
+    path: "{{ jenkins_home }}"
+    state: directory
+  register: output
+
+- debug:
+    msg: "{{output }}"
+
+- name: copy docker files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - {src: 'docker-compose.yml.j2',dest: '{{jenkins_home}}/docker-compose.yml'}
+    - {src: 'dockerfile_jenkins.j2',dest: '{{jenkins_home}}/dockerfile_jenkins'}
+    - {src: 'plugins.txt.j2',dest: '{{jenkins_home}}/plugins.txt'}
+    - {src: 'security.groovy.j2',dest: '{{jenkins_home}}/security.groovy'}
+
+- name: build the docker image
+  docker_image:
+    path: "{{ jenkins_home }}"
+    name: milcloud/jenkins
+    dockerfile: "{{ dockerfile }}"
+    state: present
+  register: output
+
+- debug:
+    msg: "{{output }}"
+
+- name: Init a new swarm with default parameters
+  docker_swarm:
+    state: present
+
+- name: check if secret is already created
+  command: docker secret ls
+  register: output_secret
+
+- name: set docker secret user
+  shell: echo {{ jenkins_user }} | docker secret create jenkins-user -
+  when: output_secret.stdout == ""
+  register: output
+
+
+- name: set docker secret user's password
+  shell: echo {{jenkins_password }} | docker secret create jenkins-password -
+  when: output_secret.stdout == ""
+  register: output
+
+
+- name: deploy jenkins
+  command:  docker stack deploy --compose-file {{ docker_compose_file }} jenkins
+  register: output
+
+- debug:
+    msg: "{{output.stdout }}"
