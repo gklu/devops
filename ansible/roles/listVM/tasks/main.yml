@@ -6,14 +6,14 @@
   debug:
     msg: "{{ output.stdout }}"
 
-# - name: gather instance facts
-#   cs_instance_facts:
-#     name: DemoVM
-#   delegate_to: localhost
-#   register: vm
+- name: gather instance facts
+  cs_instance_facts:
+    name: DemoVM
+  # delegate_to: localhost
+  register: vm
 
-# - debug:
-#     var: cloudstack_instance
+- debug:
+    var: cloudstack_instance
 
-# - debug:
-#     var: vm
+- debug:
+    var: vm
