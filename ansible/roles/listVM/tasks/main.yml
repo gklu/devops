@@ -1,5 +1,5 @@
 - name: list virtual machines
-  command: cs listVirtualMachines
+  shell: cs listVirtualMachines
   register: output
 
 - name: print the output
