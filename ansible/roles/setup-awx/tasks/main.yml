@@ -1,0 +1,77 @@
+- name: install system packages
+  yum: 
+    name: 
+      - python-setuptools
+      - gcc
+      - make
+      - git
+    state: latest
+
+- name: install pip
+  command: easy_install pip
+
+- name: install ansible and docker-py
+  pip:
+    name:
+      - ansible
+      - docker
+
+- name: check if we nodejs
+  command: rpm -qa | grep node
+  register: node
+
+- name: download nodejs setup script
+  get_url:
+    url: https://rpm.nodesource.com/setup_11.x
+    dest: /tmp/setup_11.x
+  when: node.stdout == ""
+
+- name: install nodejs 11.x repo
+  command: bash /tmp/setup_11.x
+  when: node.stdout == ""
+
+- name: install nodejs
+  yum:
+    name: nodejs
+  when: node.stdout == ""
+
+- debug:
+    msg: "{{ output.stdout }}"
+
+- name: create directory for the ansible tower
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /local/ansible-tower
+    - "{{ postgres_data_dir }}"
+    - /local/awx
+
+- name: clone the tower repository
+  git:
+    repo: 'https://github.com/ansible/awx.git'
+    dest: /local/ansible-tower
+    force: yes
+
+- name: configure external url
+  lineinfile:
+    dest: /local/ansible-tower/installer/inventory
+    regexp: "{{ item.regexp }}"
+    line:  "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '^# use_docker_compose=false' ,line: 'use_docker_compose=true' }
+    - { regexp: '^postgres_data_dir=/tmp/pgdocker$',line: 'postgres_data_dir={{ postgres_data_dir }}' }
+    - { regexp: '^host_port=80$', line: 'host_port=8080'}
+    - { regexp: '^docker_compose_dir=/var/lib/awx$', line: 'docker_compose_dir=/local/awx'}
+    - { regexp: '^pg_password=awxpass$',line: 'pg_password={{ postgres_pass }}'}
+
+- name: build the ansible tower
+  command: ansible-playbook -i inventory install.yml
+  args:
+    chdir: /local/ansible-tower/installer
+  register: output
+
+- debug:
+    msg: "{{ output }}"
+

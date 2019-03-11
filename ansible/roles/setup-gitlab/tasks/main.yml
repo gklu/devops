@@ -1,0 +1,133 @@
+- name: install system packages
+  yum: 
+    name: 
+      - curl 
+      - policycoreutils-python
+      - openssh-server
+      - postfix
+    state: latest
+
+# - name: build /etc/hosts file
+#   lineinfile: 
+#     dest: /etc/hosts 
+#     regexp: '.*{{ item }}$' 
+#     line: "{{ hostvars[item].ansible_default_ipv4.address }} {{item}}" 
+#     state: present
+#   when: hostvars[item].ansible_default_ipv4.address is defined
+  
+- name: restart ssh service
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - sshd
+    - postfix
+
+- name: open http and https port
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items:
+    - http
+    - https
+
+- name: open port for container registry
+  firewalld:
+    port: 4567/tcp
+    permanent: yes
+    state: enabled
+
+- name: reload firewalld
+  command: firewall-cmd --reload
+  register: output
+
+- debug:
+    msg: "{{ output.stdout }}"
+
+- name: do not reinstall if we have installation.
+  stat: 
+    path: /usr/bin/gitlab-ctl
+  register: gitlab_config
+
+- name: download gitlab script
+  get_url:
+    url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh
+    dest: /tmp/script.rpm.sh
+  when: ! gitlab_config.stat.exists
+
+- name: setup gitlab repo
+  command: sh /tmp/script.rpm.sh
+  register: output
+  when: ! gitlab_config.stat.exists
+
+- debug:
+    msg: "{{ output }}"
+
+- name: install gitlab-ce
+  yum:
+    name: gitlab-ce
+    state: present
+  when: ! gitlab_config.stat.exists
+
+- name: create ssl directory
+  file:
+    path: "{{ cert_dir }}"
+    state: directory
+    mode: 0700
+
+- name: copy cert files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0600
+  with_items:
+    - {src: 'evay-wildcard.key.j2',dest: '{{ cert_dir }}/mygitlab.evay.cloud.key'}
+    - {src: 'evay-wildcard.pem.j2',dest: '{{ cert_dir }}/mygitlab.evay.cloud.crt'}
+    
+- name: configure external url
+  lineinfile:
+    dest: /etc/gitlab/gitlab.rb
+    regexp: '^external_url'
+    line:  external_url "{{ url }}" 
+    state: present
+
+  register: output
+
+- debug:
+    msg: "{{ output }}"
+
+- name: configure email
+  blockinfile:
+    path: /etc/gitlab/gitlab.rb
+    insertafter: EOF
+    block: |
+      gitlab_rails['smtp_enable'] = true
+      gitlab_rails['smtp_address'] = "smtp.gmail.com"
+      gitlab_rails['smtp_port'] = 587
+      gitlab_rails['smtp_user_name'] = "{{ email_username }}"
+      gitlab_rails['smtp_password'] = "{{ email_password }}"
+      gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+      gitlab_rails['smtp_authentication'] = "login"
+      gitlab_rails['smtp_enable_starttls_auto'] = true
+      gitlab_rails['smtp_tls'] = false
+      gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+
+      nginx['redirect_http_to_https'] = true
+      registry_external_url '{{url}}:4567'
+    
+- name: configure gitlab
+  command: gitlab-ctl reconfigure
+  register: output
+
+- debug:
+    msg: "{{ output.stdout }}"
+
+- name: restart gitlab
+  command: gitlab-ctl restart
+  register: output
+
+- debug:
+    msg: "{{ output.stdout }}"
