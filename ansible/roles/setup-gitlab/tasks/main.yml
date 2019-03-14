@@ -5,8 +5,17 @@
       - policycoreutils-python
       - openssh-server
       - postfix
+      - python2-devel
+      - firewalld
+      - mailx
+
     state: latest
 
+- name: start firewalld
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes
 # - name: build /etc/hosts file
 #   lineinfile: 
 #     dest: /etc/hosts 
@@ -52,16 +61,19 @@
     path: /usr/bin/gitlab-ctl
   register: gitlab_config
 
+- debug:
+    msg: "{{gitlab_config}}"
+
 - name: download gitlab script
   get_url:
     url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh
     dest: /tmp/script.rpm.sh
-  when: ! gitlab_config.stat.exists
+  when: gitlab_config.stat.exists == False
 
 - name: setup gitlab repo
   command: sh /tmp/script.rpm.sh
   register: output
-  when: ! gitlab_config.stat.exists
+  when: gitlab_config.stat.exists == False
 
 - debug:
     msg: "{{ output }}"
@@ -70,7 +82,7 @@
   yum:
     name: gitlab-ce
     state: present
-  when: ! gitlab_config.stat.exists
+  when: gitlab_config.stat.exists == False
 
 - name: create ssl directory
   file:
@@ -84,8 +96,8 @@
     dest: "{{ item.dest }}"
     mode: 0600
   with_items:
-    - {src: 'evay-wildcard.key.j2',dest: '{{ cert_dir }}/mygitlab.evay.cloud.key'}
-    - {src: 'evay-wildcard.pem.j2',dest: '{{ cert_dir }}/mygitlab.evay.cloud.crt'}
+    - {src: 'milcloud2-wildcard.mil.key.j2',dest: '{{ cert_dir }}/gitlab.milcloud2.mil.key'}
+    - {src: 'milcloud2-wildcard.mil.crt.j2',dest: '{{ cert_dir }}/gitlab.milcloud2.mil.crt'}
     
 - name: configure external url
   lineinfile:

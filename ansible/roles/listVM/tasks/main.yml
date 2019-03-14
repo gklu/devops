@@ -1,5 +1,13 @@
 - name: list virtual machines
-  shell: cs listVirtualMachines
+  command: cs listVirtualMachines
+  register: output
+
+- name: print the output
+  debug:
+    msg: "{{ output.stdout }}"
+
+- name: list templates
+  command: cs listTemplates templatefilter=featured
   register: output
 
 - name: print the output

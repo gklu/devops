@@ -6,3 +6,9 @@ monitor
 
 [jenkins]
 jenkins
+
+[gitlab]
+gitlab
+
+[awx]
+jenkins
