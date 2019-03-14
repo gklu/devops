@@ -4,7 +4,7 @@
 
 - name: print the output
   debug:
-    msg: "{{ output.stdout }}"
+    msg: "{{ output }}"
 
 - name: list templates
   command: cs listTemplates templatefilter=featured
