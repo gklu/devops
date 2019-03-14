@@ -16,7 +16,7 @@
 
 - name: gather instance facts
   cs_instance_facts:
-    name: DemoVM
+    name: jenkins
   delegate_to: localhost
   register: vm
 
