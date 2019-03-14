@@ -12,7 +12,7 @@
 
 - name: print the output
   debug:
-    msg: "{{ output.stdout }}"
+    msg: "{{ output }}"
 
 - name: gather instance facts
   cs_instance_facts:
