@@ -1,0 +1,16 @@
+- name: register isos 
+  delegate_to: localhost
+  block:
+    - name: register iso
+      cs_iso:
+        name: "{{ name }}"
+        url: "{{ url }}"
+        display_text: "{{ display_text }}"
+        os_type: "{{ iso_os_type }}"
+        bootable: "{{ is_bootable }}"
+        zone: "{{ zone }}"
+      register: iso_output
+
+    - debug: 
+        msg: "{{ iso_output }}"
+  

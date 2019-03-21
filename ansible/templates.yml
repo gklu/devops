@@ -1,0 +1,12 @@
+---
+- name: upload templates
+  hosts: "{{ host  }}"
+  become: yes
+  become_user: root
+  become_method: sudo
+  #user: vdonkor
+
+  roles:
+    - upload-templates
+
+    
