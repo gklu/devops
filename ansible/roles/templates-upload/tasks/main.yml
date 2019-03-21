@@ -1,0 +1,48 @@
+- name: register isos 
+  delegate_to: localhost
+  block:
+    - name: register iso
+      cs_iso:
+        name: "{{ name }}"
+        url: "{{ url }}"
+        display_text: "{{ display_text }}"
+        os_type: "{{ iso_os_type }}"
+        bootable: "{{ is_bootable }}"
+        zone: "{{ zone }}"
+      register: iso_output
+
+    - debug: 
+        msg: "{{ iso_output }}"
+  
+- name: register templates
+  delegate_to: localhost
+  block:
+    - name: upload templates 
+      cs_template:
+        name: "{{ name }}"
+        display_text: "{{ display_text }}"
+        url: "{{ url }}"
+        hypervisor: KVM
+        format: QCOW2
+        zone: "{{ zone }}"
+        os_type: "{{ os_type }}"
+      register: template_output
+    
+    - debug: 
+        msg: "{{ iso_output }}"
+
+    # - name: Poll the template registration till success
+    #   cs_template:
+    #     name: "{{ instance_name }}"
+    #     template_filter: self
+    #     zone: "{{ zone }}"
+    #     is_extractable: yes
+    #     is_public: yes
+    #   register: poll
+    #   until: poll.status == "Download Complete"
+    #   retries: 100
+    #   delay: 10
+
+
+
+
