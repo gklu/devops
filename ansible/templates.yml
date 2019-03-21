@@ -4,7 +4,7 @@
   become: yes
   become_user: root
   become_method: sudo
-  #user: vdonkor
+  connection: local
 
   roles:
     - upload-templates
