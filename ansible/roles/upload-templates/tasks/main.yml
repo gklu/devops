@@ -14,7 +14,7 @@
       register: template_output
     
     - debug: 
-        msg: "{{ iso_output }}"
+        msg: "{{ template_output }}"
 
     # - name: Poll the template registration till success
     #   cs_template:
