@@ -3,6 +3,8 @@
     name: 
       - python-setuptools
       - gcc
+      - glibc-common
+      - glibc
       - make
       - git
     state: latest
@@ -14,7 +16,7 @@
   pip:
     name:
       - ansible
-      - docker
+#      - docker-py
 
 - name: check if we nodejs
   command: rpm -qa | grep node
@@ -35,8 +37,8 @@
     name: nodejs
   when: node.stdout == ""
 
-- debug:
-    msg: "{{ output.stdout }}"
+#- debug:
+#    msg: "{{ output.stdout }}"
 
 - name: create directory for the ansible tower
   file:

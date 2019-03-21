@@ -1,15 +1,23 @@
 - name: list virtual machines
-  shell: cs listVirtualMachines
+  command: cs listVirtualMachines
   register: output
 
 - name: print the output
   debug:
-    msg: "{{ output.stdout }}"
+    msg: "{{ output }}"
+
+- name: list templates
+  command: cs listTemplates templatefilter=featured
+  register: output
+
+- name: print the output
+  debug:
+    msg: "{{ output }}"
 
 - name: gather instance facts
   cs_instance_facts:
-    name: DemoVM
-  # delegate_to: localhost
+    name: jenkins
+  delegate_to: localhost
   register: vm
 
 - debug:
