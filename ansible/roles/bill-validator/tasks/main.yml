@@ -14,7 +14,7 @@
     ssh_key: bill-ssh-key
     disk_offering: Small
     ip_address: "{{ groups.bill[0] }}"
-    state: running
+    state: started
     tags:
       - key: purpose
         value: billing
