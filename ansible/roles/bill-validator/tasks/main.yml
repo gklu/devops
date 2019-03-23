@@ -13,10 +13,17 @@
     network: app
     ssh_key: bill-ssh-key
     disk_offering: Small
-    ip_address: "{{ groups.bill[0] }}"
     state: started
     tags:
       - key: purpose
         value: billing
   delegate_to: localhost
+  register: instance_state
+
+- debug:
+    msg: "{{ instance_state }}"
+
+- name: enable static NATs
+  cs_staticnat: vm="{{ inventory_hostname_short }}" ip_address="{{ public_ip }}"
+  when: public_ip is defined
 
