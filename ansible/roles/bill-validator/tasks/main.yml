@@ -29,7 +29,6 @@
     vm: "{{ inventory_hostname_short }}" 
     ip_address: "{{ public_ip }}"
     network: app
-
   when: public_ip is defined
   delegate_to: localhost
   register: nat_state
