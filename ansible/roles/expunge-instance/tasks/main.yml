@@ -1,0 +1,10 @@
+- name: check for the uptime
+  shell: uptime | awk '{print $3}'
+  register: uptime
+  until: uptime.stdout == "57"
+  retries: 60
+  delay: 10
+  
+- name: show uptime
+  debug:
+    msg: "{{ uptime.stdout }}"

@@ -35,3 +35,35 @@
 
 - debug:
     msg: "{{ nat_state }}"
+
+- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+  wait_for:
+    port: 22
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    search_regex: OpenSSH
+    delay: 10
+  vars:
+    ansible_connection: local
+
+- name: check for the uptime
+  shell: uptime | awk '{print $3}'
+  register: uptime
+  until: uptime.stdout == "10"
+  retries: 100
+  delay: 10
+
+- name: show uptime
+  debug:
+    msg: "{{ uptime.stdout }}"
+
+- name: expunge the instance
+  cs_instance:
+    name: "{{instance_state.display_name }}"
+    state: expunged
+  delegate_to: localhost
+  register: instance_state
+
+- debug:
+    msg: "{{instance_state}}"
+
+
