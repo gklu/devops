@@ -10,6 +10,7 @@
     display_name: centos6-bill
     template: centos65_x86_64
     service_offering: t2.micro
+    network: app
     ssh_key: bill-ssh-key
     disk_offering: Small
     ip_address: "{{ hostvars['bill'].ansible_host }}"
