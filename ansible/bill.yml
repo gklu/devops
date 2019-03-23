@@ -1,19 +1,18 @@
 ---
-# - name: bill validator
-#   hosts: "{{ host_a  }}"
-#   connection: local
-
-#   roles:
-#     # - configure_cloudstack_credentials
-#     - create-instance
-
 - name: bill validator
-  hosts: "{{ host_b }}"
-  become: True
-  gather_facts: True
+  hosts: "{{ host_a  }}"
+  connection: local
 
   roles:
     # - configure_cloudstack_credentials
-    - expunge-instance
+    - create-instance
+
+# - name: bill validator
+#   hosts: "{{ host_b }}"
+#   gather_facts: True
+
+#   roles:
+#     # - configure_cloudstack_credentials
+#     - expunge-instance
 
     
