@@ -25,7 +25,11 @@
     msg: "{{ instance_state.state }}"
 
 - name: enable static NATs
-  cs_staticnat: vm="{{ inventory_hostname_short }}" ip_address="{{ public_ip }}"
+  cs_staticnat: 
+    vm: "{{ inventory_hostname_short }}" 
+    ip_address: "{{ public_ip }}"
+    network: app
+
   when: public_ip is defined
   delegate_to: localhost
   register: nat_state
