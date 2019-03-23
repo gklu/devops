@@ -1,14 +1,6 @@
 [cloudstack]
 127.0.0.1
 
-[monitor]
-monitor
+[bill]
+centos6.milcloud2.mil	ansible_ssh_host=10.0.0.10
 
-[jenkins]
-jenkins
-
-[gitlab]
-gitlab
-
-[awx]
-jenkins

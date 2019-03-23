@@ -1,0 +1,10 @@
+---
+- name: bill validator
+  hosts: "{{ host  }}"
+  connection: local
+
+  roles:
+    - configure_cloudstack_credentials
+    - bill-validator
+
+    

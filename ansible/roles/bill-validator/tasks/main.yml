@@ -1,0 +1,20 @@
+- name: setup ssh key
+  cs_sshkeypair:
+    name: bill-ssh-key
+    public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  delegate_to: localhost
+
+- name: lunch daily centos 6 vm
+  cs_instance:
+    name: centos6-bill
+    display_name: centos6-bill
+    template: centos65_x86_64
+    service_offering: t2.micro
+    ssh_key: bill-ssh-key
+    disk_offering: Small
+    ip_address: "{{ hostvars['bill'].ansible_host }}"
+    state: running
+    tags:
+      - key: purpose
+        value: billing
+  delegate_to: localhost
