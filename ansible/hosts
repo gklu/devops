@@ -2,5 +2,6 @@
 127.0.0.1
 
 [bill]
-centos6.evay.cloud	ansible_ssh_host=10.0.0.10
+localhost			ansible_host=127.0.0.1
+centos6.evay.cloud	ansible_host=10.0.0.10
 
