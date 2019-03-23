@@ -1,7 +1,7 @@
 - name: setup ssh key
   cs_sshkeypair:
     name: bill-ssh-key
-    public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    public_key: "{{ lookup('file', '/.ssh/id_rsa.pub') }}"
   delegate_to: localhost
 
 - name: lunch daily centos 6 vm
