@@ -12,7 +12,7 @@
   cs_instance:
     name: centos6-bill
     display_name: centos6-bill
-    template: centos65_x86_64
+    template: centos65_ssh
     service_offering: t2.micro
     network: app
     ssh_key: mykey
