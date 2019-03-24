@@ -1,27 +1,20 @@
 - name: check for the uptime
   shell: uptime | awk '{print $3}'
   register: uptime
-#   until: uptime.stdout == "3"
-#   retries: 100
-#   delay: 10
-
-- name: check host name
-  command: hostname -f
-  register: hostname
-
-- debug:
-    msg: "{{ hostname }}"
+  until: uptime.stdout == "3"
+  retries: 100
+  delay: 10
 
 - name: show uptime
   debug:
     msg: "{{ uptime.stdout }}"
 
-# - name: expunge the instance
-#   cs_instance:
-#     name: "{{instance_state.display_name }}"
-#     state: expunged
-#   delegate_to: localhost
-#   register: instance_state
+- name: expunge the instance
+  cs_instance:
+    name: "{{instance_state.display_name }}"
+    state: expunged
+  delegate_to: localhost
+  register: instance_state
 
-# - debug:
-#     msg: "{{instance_state}}"
+- debug:
+    msg: "{{instance_state}}"
