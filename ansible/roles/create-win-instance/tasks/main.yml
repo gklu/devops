@@ -23,6 +23,7 @@
     service_offering: "Standard 2 vCPU 2 GB RAM"
     network: DemoWebtier
     disk_offering: "Standard Data Volume"
+    disk_size: 10
     state: started
     tags:
       - key: purpose
