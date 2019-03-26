@@ -1,7 +1,22 @@
+
 - name: check uptime
-  win_shell: (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
-  register: uptime
+  win_shell: |
+      function Get-Uptime {
+      $os = Get-WmiObject win32_operatingsystem
+      $uptime = (Get-Date) - ($os.ConvertToDateTime($os.lastbootuptime))
+      $Display = $Uptime.Minutes 
+      Write-Output $Display
+      }
+      Get-Uptime
+  register: myuptime
+
 
 - name: print out the output
   debug: 
-    msg: "{{ uptime.stdout }}"
+    msg: "{{ myuptime.stdout }}"
+
+
+  
+
+ 
+

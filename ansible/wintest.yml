@@ -1,6 +1,8 @@
 ---
 - name: create sftp users
   hosts: "{{ host  }}"
+  become_method: runas
+  gather_facts: no
   
 
   roles:
