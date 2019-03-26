@@ -13,7 +13,7 @@
 
 - name: print out the output
   debug: 
-    msg: "{{ myuptime.stdout }}"
+    msg: "{{ myuptime}}"
 
 
   
