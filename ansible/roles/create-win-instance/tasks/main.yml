@@ -1,5 +1,5 @@
 - name: check uptime
-  win_command: (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
+  win_shell: (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
   register: uptime
 
 - name: print out the output
