@@ -1,0 +1,7 @@
+- name: check uptime
+  win_command: (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
+  register: uptime
+
+- name: print out the output
+  debug: 
+    msg: "{{ uptime.stdout }}"

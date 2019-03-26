@@ -1,0 +1,8 @@
+---
+- name: create sftp users
+  hosts: "{{ host  }}"
+  
+
+  roles:
+    - create-win-instance
+    # - vm-conversion
