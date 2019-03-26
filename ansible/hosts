@@ -4,3 +4,13 @@
 [bill]
 centos6-bill.evay.cloud ansible_host=172.16.10.147 public_ip=172.16.10.147
 
+[win]
+172.16.2.5 
+172.16.2.6 
+
+[win:vars]
+ansible_user=vagrant
+ansible_password=password
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
+
