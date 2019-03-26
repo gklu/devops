@@ -1,22 +1,57 @@
 
-- name: check uptime
-  win_shell: |
-      function Get-Uptime {
-      $os = Get-WmiObject win32_operatingsystem
-      $uptime = (Get-Date) - ($os.ConvertToDateTime($os.lastbootuptime))
-      $Display = + $Uptime.Minutes  
-      Write-Output $Display
-      }
-      Get-Uptime
-  register: myuptime
+# - name: check uptime
+#   win_shell: |
+#       function Get-Uptime {
+#       $os = Get-WmiObject win32_operatingsystem
+#       $uptime = (Get-Date) - ($os.ConvertToDateTime($os.lastbootuptime))
+#       $Display = + $Uptime.Minutes  
+#       Write-Output $Display
+#       }
+#       Get-Uptime
+#   register: myuptime
+
+# - name: print out the output
+#   debug: 
+#     msg: "{{ myuptime.stdout_lines[0] }}"
 
 
-- name: print out the output
-  debug: 
-    msg: "{{ myuptime.stdout_lines[0] }}"
+- name: lunch daily windows 10 vm
+  cs_instance:
+    name: windows-bill
+    display_name: windows10-bill
+    template: win10-bill
+    service_offering: "Standard 2 vCPU 2 GB RAM"
+    network: DemoWebtier
+    disk_offering: "Standard Data Volume"
+    state: started
+    tags:
+      - key: purpose
+        value: billing
+  delegate_to: localhost
+  register: instance_state
 
+- debug:
+    msg: "{{ instance_state.state }}"
 
-  
+- name: enable static NATs
+  cs_staticnat: 
+    vm: "{{ inventory_hostname_short }}" 
+    ip_address: "{{ public_ip }}"
+    vpc: DemoVPC
+    network: DemoWebtier
+  when: public_ip is defined
+  delegate_to: localhost
+  register: nat_state
+
+- debug:
+    msg: "{{ nat_state }}"
+
+- name: Wait for system to become reachable over WinRM
+  wait_for_connection:
+    timeout: 900
+  vars:
+    ansible_connection: local
+ 
 
  
 
