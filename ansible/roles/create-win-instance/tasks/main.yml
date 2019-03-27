@@ -2,9 +2,9 @@
 - name: lunch daily windows 10 vm
   cs_instance:
     name: windows-bill
-    display_name: windows10-bill
-    template: win10-bill
-    service_offering: "Standard 2 vCPU 2 GB RAM"
+    display_name: windows-2012-bill
+    template: win-2012-bill
+    service_offering: "Standard 1 vCPU 2 GB RAM"
     network: DemoWebtier
     disk_offering: "Standard Data Volume"
     disk_size: 10
