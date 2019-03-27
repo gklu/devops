@@ -1,0 +1,22 @@
+# ---
+- name: bill validator
+  hosts: "{{ host  }}"
+  become_method: runas
+  gather_facts: no
+  connection: local
+
+  roles:
+    #- configure_cloudstack_credentials
+    - create-win-instance
+
+- name: bill validator
+  hosts: "{{ host  }}"
+  become_method: runas
+  gather_facts: no
+ 
+
+  roles:
+    # - configure_cloudstack_credentials
+    - expunge-win-instance
+
+    

@@ -1,20 +1,4 @@
 
-# - name: check uptime
-#   win_shell: |
-#       function Get-Uptime {
-#       $os = Get-WmiObject win32_operatingsystem
-#       $uptime = (Get-Date) - ($os.ConvertToDateTime($os.lastbootuptime))
-#       $Display = + $Uptime.Minutes  
-#       Write-Output $Display
-#       }
-#       Get-Uptime
-#   register: myuptime
-
-# - name: print out the output
-#   debug: 
-#     msg: "{{ myuptime.stdout_lines[0] }}"
-
-
 - name: lunch daily windows 10 vm
   cs_instance:
     name: windows-bill

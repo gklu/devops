@@ -1,0 +1,27 @@
+- name: check uptime
+  win_shell: |
+      function Get-Uptime {
+      $os = Get-WmiObject win32_operatingsystem
+      $uptime = (Get-Date) - ($os.ConvertToDateTime($os.lastbootuptime))
+      $Display = + $Uptime.Minutes  
+      Write-Output $Display
+      }
+      Get-Uptime
+  register: uptime
+  until: uptime.stdout_lines[0] == "5"
+  retries: 100
+  delay: 10
+
+- name: print out the output
+  debug: 
+    msg: "{{ uptime.stdout_lines[0] }}"
+
+- name: expunge the instance
+  cs_instance:
+    name: "{{instance_state.display_name }}"
+    state: expunged
+  delegate_to: localhost
+  register: instance_state
+
+- debug:
+    msg: "{{instance_state}}"
