@@ -1,8 +1,8 @@
 
 - name: lunch daily windows 10 vm
   cs_instance:
-    name: windows-2012-bill
-    display_name: windows-2012-bill
+    name: "{{ inventory_hostname_short }}"
+    display_name: "{{ inventory_hostname_short }}"
     template: win-2012-bill
     service_offering: "Standard 1 vCPU 2 GB RAM"
     network: DemoWebtier
