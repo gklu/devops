@@ -34,8 +34,8 @@
 - name: Wait for system to become reachable over WinRM
   wait_for_connection:
     timeout: 900
-  vars:
-    ansible_connection: local
+  # vars:
+  #   ansible_connection: local
  
 
  
