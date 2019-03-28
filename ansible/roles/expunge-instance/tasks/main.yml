@@ -37,24 +37,32 @@
     iops_10k_rate: 0
     uptime: "{{ uptime.stdout }}"
 
-- name: print 
+- name: create mysql statement
+  command: >
+    echo "insert into biling values(
+    {{ vm_name }},
+    {{ vm_id }},
+    {{ date_created }},
+    {{ os }},
+    {{ iaas }},
+    {{ disk_size }},
+    {{ disk1 }},
+    {{ disk2 }},
+    {{ service_offering }},
+    {{ iaas_rate }},
+    {{ archive_storage_rate }},
+    {{ std_storage_rate }},
+    {{ iops_5k_rate }},
+    {{ iops_10k_rate }},
+    {{ uptime }});" > ./biling.sql
+
+- name: cat biling.sql
+  command: cat ./biling.sql
+  register: biling
+
+- name: print out biling.sql
   debug:
-    msg: >
-      "{{ vm_name }} 
-      {{ vm_id }} 
-      {{ date_created }} 
-      {{ os }}
-      {{ iaas }}
-      {{ disk_size }}
-      {{ disk1 }}
-      {{ disk2 }}
-      {{ service_offering }}
-      {{ iaas_rate }}
-      {{ archive_storage_rate }}
-      {{ std_storage_rate }}
-      {{ iops_5k_rate }}
-      {{ iops_10k_rate }}
-      {{ uptime }}"
+    msg: "{{biling.stdout}}"
 
 
 
