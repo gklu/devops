@@ -59,7 +59,7 @@
 
 - name: create mysql statement
   shell: >
-    echo "insert into biling values(
+    echo "insert into billing values(
     'centos6-bill',
     '1d678431-5415-4d65-8c5d-33a1d18c95b4',
     '2019-03-28T16:35:19-0400',
