@@ -3,7 +3,7 @@
 
 [bill]
 #centos6-bill.evay.cloud ansible_host=172.16.10.147 public_ip=172.16.10.147
-127.0.0.1
+#127.0.0.1
 
 [win]
 windows10-bill nsible_host=172.16.10.147 public_ip=172.16.10.147
