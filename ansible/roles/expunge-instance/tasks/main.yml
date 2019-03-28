@@ -80,7 +80,7 @@
 - name: import billing data
   mysql_db:
     state: import
-    name: billing
+    name: usage
     target: billing.sql
     login_user: vdonkor
     login_password: "rancom2001"
