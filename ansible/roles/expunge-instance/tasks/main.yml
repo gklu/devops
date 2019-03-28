@@ -59,7 +59,24 @@
 
 - name: create mysql statement
   shell: >
-    echo "insert into billing values(
+    echo "insert into billing
+    (
+    vm_name,
+    vm_id,
+    date_created,
+    os,
+    iaas,
+    disk_size,
+    disk1,
+    disk2,
+    service_offering,
+    iaas_rate,
+    archive_storage_rate,
+    std_storage_rate,
+    iops_5k_rate,
+    iops_10k_rate,
+    uptime
+    ) values(
     'centos6-bill',
     '1d678431-5415-4d65-8c5d-33a1d18c95b4',
     '2019-03-28T16:35:19-0400',
@@ -84,14 +101,14 @@
 - debug:
     msg: "{{ billing.stdout }}"
 
-# - name: import billing data
-#   mysql_db:
-#     state: import
-#     name: usage
-#     target: billing.sql
-#     login_user: vdonkor
-#     login_password: "rancom2001"
-#     login_host: 172.16.10.5
+- name: import billing data
+  mysql_db:
+    state: import
+    name: usage
+    target: billing.sql
+    login_user: vdonkor
+    login_password: "rancom2001"
+    login_host: 172.16.10.5
 
 
 
