@@ -78,7 +78,7 @@
   delegate_to: localhost
 
 - name: show current working directory
-  command: pwd
+  command: ls -l
   register: pwd
 
 - debug:
