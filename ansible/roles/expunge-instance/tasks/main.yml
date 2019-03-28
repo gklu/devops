@@ -77,14 +77,21 @@
     5);" > billing.sql
   delegate_to: localhost
 
-- name: import billing data
-  mysql_db:
-    state: import
-    name: usage
-    target: billing.sql
-    login_user: vdonkor
-    login_password: "rancom2001"
-    login_host: 172.16.10.5
+- name: cat billing.sql
+  shell: cat billing.sql
+  register: billing
+
+- debug:
+    msg: "{{ billing.stdout }}"
+
+# - name: import billing data
+#   mysql_db:
+#     state: import
+#     name: usage
+#     target: billing.sql
+#     login_user: vdonkor
+#     login_password: "rancom2001"
+#     login_host: 172.16.10.5
 
 
 

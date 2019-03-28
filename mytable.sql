@@ -1,5 +1,4 @@
 CREATE TABLE billing(
-   id INT AUTO_INCREMENT PRIMARY KEY,
    vm_name VARCHAR(50),
    vm_id VARCHAR(100),
    date_created VARCHAR(50),
@@ -15,5 +14,6 @@ CREATE TABLE billing(
    iops_5k_rate FlOAT(6),
    iops_10k_rate FlOAT(6),
    uptime INT,
-   captured_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   captured_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+id INT AUTO_INCREMENT NOT NULL  PRIMARY KEY,
