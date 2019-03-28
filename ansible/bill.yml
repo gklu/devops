@@ -10,6 +10,7 @@
 - name: bill validator
   hosts: "{{ host_b }}"
   gather_facts: True
+  connection: local
 
   roles:
     # - configure_cloudstack_credentials
