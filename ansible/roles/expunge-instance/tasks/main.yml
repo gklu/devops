@@ -54,8 +54,7 @@
     {{ std_storage_rate }}
     {{ iops_5k_rate }}
     {{ iops_10k_rate }}
-    {{ uptime }}
-    "
+    {{ uptime }}"
 
 
 
