@@ -55,14 +55,17 @@
     {{ iops_5k_rate }},
     {{ iops_10k_rate }},
     {{ uptime }});" > ./biling.sql
+  delegate_to: localhost
 
 - name: cat biling.sql
   command: cat ./biling.sql
   register: biling
+  delegate_to: localhost
 
 - name: print out biling.sql
   debug:
     msg: "{{biling.stdout}}"
+  delegate_to: localhost
 
 
 
