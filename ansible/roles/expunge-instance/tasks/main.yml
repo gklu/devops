@@ -67,7 +67,7 @@
     'IaaS NO OS VM',
     10,
     'Archive Data Volume (Tier 2)',
-    '',
+    'n/a',
     'Standard 1 vCPU 2 GB RAM',
     iaas_rate,
     0.040622,
