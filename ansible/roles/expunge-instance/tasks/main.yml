@@ -58,7 +58,7 @@
 #   delegate_to: localhost
 
 - name: create mysql statement
-  command: >
+  shell: >
     echo "insert into biling values(
     vm_name ,
     vm_id ,
@@ -91,7 +91,7 @@
 
 - name: print out biling.sql
   debug:
-    msg: "{{biling.stdout}}"
+    msg: "{{biling}}"
   delegate_to: localhost
 
 
