@@ -1,7 +1,7 @@
 - name: check for the uptime
   shell: uptime | awk '{print $3}'
   register: uptime
-  until: uptime.stdout == "3"
+  until: uptime.stdout == "2"
   retries: 100
   delay: 10
 
