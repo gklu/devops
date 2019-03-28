@@ -1,41 +1,41 @@
-- name: check for the uptime
-  shell: uptime | awk '{print $3}'
-  register: uptime
-  until: uptime.stdout == "1"
-  retries: 100
-  delay: 10
+# - name: check for the uptime
+#   shell: uptime | awk '{print $3}'
+#   register: uptime
+#   until: uptime.stdout == "1"
+#   retries: 100
+#   delay: 10
 
-- name: show uptime
-  debug:
-    msg: "{{ uptime.stdout }}"
+# - name: show uptime
+#   debug:
+#     msg: "{{ uptime.stdout }}"
 
-- name: expunge the instance
-  cs_instance:
-    name: "{{instance_state.display_name }}"
-    state: expunged
-  delegate_to: localhost
-  register: instance_state
+# - name: expunge the instance
+#   cs_instance:
+#     name: "{{instance_state.display_name }}"
+#     state: expunged
+#   delegate_to: localhost
+#   register: instance_state
 
-- debug:
-    msg: "{{instance_state}}"
+# - debug:
+#     msg: "{{instance_state}}"
 
-- name: capture relevant details
-  set_fact:
-    vm_id: "{{ instance_state.id }}"
-    vm_name: "{{ instance_state.name }}"
-    date_created: "{{ instance_state.created }}"
-    iaas_rate: 0.040622
-    os: "CentOS 7.4"
-    service_offering: "Standard 1 vCPU 2 GB RAM"
-    iaas: "IaaS NO OS VM"
-    disk_size: 10
-    disk1: "Archive Data Volume (Tier 2)"
-    disk2: ""
-    archive_storage_rate: 0.000629 
-    std_storage_rate: 0
-    iops_5k_rate: 0
-    iops_10k_rate: 0
-    uptime: "{{ uptime.stdout }}"
+# - name: capture relevant details
+#   set_fact:
+#     vm_id: "{{ instance_state.id }}"
+#     vm_name: "{{ instance_state.name }}"
+#     date_created: "{{ instance_state.created }}"
+#     iaas_rate: 0.040622
+#     os: "CentOS 7.4"
+#     service_offering: "Standard 1 vCPU 2 GB RAM"
+#     iaas: "IaaS NO OS VM"
+#     disk_size: 10
+#     disk1: "Archive Data Volume (Tier 2)"
+#     disk2: ""
+#     archive_storage_rate: 0.000629 
+#     std_storage_rate: 0
+#     iops_5k_rate: 0
+#     iops_10k_rate: 0
+#     uptime: "{{ uptime.stdout }}"
 
 - name: create mysql statement
   command: >
@@ -58,7 +58,7 @@
   delegate_to: localhost
 
 - name: cat biling.sql
-  command: cat ./biling.sql
+  shell: cat ./biling.sql
   register: biling
   delegate_to: localhost
 

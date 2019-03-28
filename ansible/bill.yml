@@ -1,11 +1,11 @@
 # ---
-- name: bill validator
-  hosts: "{{ host_a  }}"
-  connection: local
+# - name: bill validator
+#   hosts: "{{ host_a  }}"
+#   connection: local
 
-  roles:
-    - configure_cloudstack_credentials
-    - create-instance
+#   roles:
+#     - configure_cloudstack_credentials
+#     - create-instance
 
 - name: bill validator
   hosts: "{{ host_b }}"
