@@ -40,21 +40,21 @@
 - name: print 
   debug:
     msg: >
-    "{{ vm_name }} 
-    {{ vm_id }} 
-    {{ date_created }} 
-    {{ os }}
-    {{ iaas }}
-    {{ disk_size }}
-    {{ disk1 }}
-    {{ disk2 }}
-    {{ service_offering }}
-    {{ iaas_rate }}
-    {{ archive_storage_rate }}
-    {{ std_storage_rate }}
-    {{ iops_5k_rate }}
-    {{ iops_10k_rate }}
-    {{ uptime }}"
+      "{{ vm_name }} 
+      {{ vm_id }} 
+      {{ date_created }} 
+      {{ os }}
+      {{ iaas }}
+      {{ disk_size }}
+      {{ disk1 }}
+      {{ disk2 }}
+      {{ service_offering }}
+      {{ iaas_rate }}
+      {{ archive_storage_rate }}
+      {{ std_storage_rate }}
+      {{ iops_5k_rate }}
+      {{ iops_10k_rate }}
+      {{ uptime }}"
 
 
 
