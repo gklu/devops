@@ -74,11 +74,18 @@
     std_storage_rate,
     iops_5k_rate,
     iops_10k_rate,
-    uptime);" > ./biling.sql
+    uptime);" > billing.sql
   delegate_to: localhost
 
-- name: cat biling.sql
-  shell: cat ./biling.sql
+- name: show current working directory
+  command: pwd
+  register: pwd
+
+- debug:
+    msg: "{{ pwd.stdout }}"
+
+- name: cat billing.sql
+  shell: cat billing.sql
   register: biling
   delegate_to: localhost
 
