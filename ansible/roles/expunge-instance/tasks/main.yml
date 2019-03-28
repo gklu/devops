@@ -21,9 +21,9 @@
 
 - name: capture relevant details
   set_fact:
-    vm_id: "{{ instance_state.msg.id }}"
-    vm_name: "{{ instance_state.msg.name }}"
-    date_created: "{{ instance_state.msg.created }}"
+    vm_id: "{{ instance_state.id }}"
+    vm_name: "{{ instance_state.name }}"
+    date_created: "{{ instance_state.created }}"
     iaas_rate: 0.040622
     os: "CentOS 7.4"
     service_offering: "Standard 1 vCPU 2 GB RAM"
