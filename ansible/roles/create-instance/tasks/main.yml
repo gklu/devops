@@ -1,21 +1,21 @@
-- name: setup ssh key
-  cs_sshkeypair:
-    name: mykey
-    public_key: "{{ lookup('file', './.ssh/id_rsa.pub') }}"
-  delegate_to: localhost
-  register: key
+# - name: setup ssh key
+#   cs_sshkeypair:
+#     name: mykey
+#     public_key: "{{ lookup('file', './.ssh/id_rsa.pub') }}"
+#   delegate_to: localhost
+#   register: key
 
-- debug:
-    msg: "{{ key }}"
+# - debug:
+#     msg: "{{ key }}"
 
-- name: lunch daily centos 6 vm
+- name: lunch daily centos 7.4 vm
   cs_instance:
     name: centos6-bill
     display_name: centos6-bill
-    template: centos65_ssh
+    template:   centos65_ssh
     service_offering: t2.micro
     network: app
-    ssh_key: mykey
+    #ssh_key: mykey
     disk_offering: Small
     state: started
     tags:
@@ -40,7 +40,7 @@
 - debug:
     msg: "{{ nat_state }}"
 
-- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+- name: Wait for port 22 to become open and contain "OpenSSH"
   wait_for:
     port: 22
     host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
