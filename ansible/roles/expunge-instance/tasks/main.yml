@@ -102,6 +102,7 @@
     login_user: vdonkor
     login_password: "rancom2001"
     login_host: 172.16.10.5
+  delegate_to: localhost
 
 
 
