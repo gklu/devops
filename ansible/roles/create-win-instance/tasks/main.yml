@@ -1,5 +1,6 @@
 
 - name: lunch daily windows 2012 vm
+  delegate_to: localhost
   block:
     - name: lunch windows 2012
       cs_instance:
@@ -31,10 +32,10 @@
     - debug:
         msg: "{{ nat_state }}"
 
-    - name: create/attach volume to instance CentOS 7
+    - name: attach volume to instance windows 2012
       cs_volume:
         name: disk2
-        disk_offering: ""
+        disk_offering: "High IOPS SSD - 10K"
         size: 10
         vm: "{{ inventory_hostname_short }}"
         state: present
