@@ -1,13 +1,13 @@
 
-- name: lunch daily windows 2012 vm
+- name: lunch daily Redhat 7.4 vm
   cs_instance:
     name: "{{ inventory_hostname_short }}"
     display_name: "{{ inventory_hostname_short }}"
-    template: windows-2012-billing
+    template: redhat-7-billing
     service_offering: "Standard 1 vCPU 2 GB RAM"
     network: DemoWebtier
-    disk_offering: "High IOPS SSD - 5K"
-    disk_size: 10
+    #ssh_key: mykey
+    disk_offering: "Standard Data Volume"
     state: started
     tags:
       - key: purpose
@@ -31,12 +31,15 @@
 - debug:
     msg: "{{ nat_state }}"
 
-- name: Wait for system to become reachable over WinRM
-  wait_for_connection:
-    timeout: 900
-  # vars:
-  #   ansible_connection: local
- 
+- name: Wait for port 22 to become open and contain "OpenSSH"
+  wait_for:
+    port: 22
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+    search_regex: OpenSSH
+    delay: 10
+  vars:
+    ansible_connection: local
 
- 
+
+
 

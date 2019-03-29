@@ -1,22 +1,12 @@
-# - name: setup ssh key
-#   cs_sshkeypair:
-#     name: mykey
-#     public_key: "{{ lookup('file', './.ssh/id_rsa.pub') }}"
-#   delegate_to: localhost
-#   register: key
-
-# - debug:
-#     msg: "{{ key }}"
-
 - name: lunch daily centos 7.4 vm
   cs_instance:
-    name: centos6-bill
-    display_name: centos6-bill
-    template:   centos65_ssh
-    service_offering: t2.micro
-    network: app
+    name: "{{ inventory_hostname_short }}" 
+    display_name: "{{ inventory_hostname_short }}"
+    template:   centos-7-billing
+    service_offering: "Standard 1 vCPU 2 GB RAM"
+    network: DemoWebtier
     #ssh_key: mykey
-    disk_offering: Small
+    disk_offering: "Archive Data Volume"
     state: started
     tags:
       - key: purpose
@@ -31,8 +21,8 @@
   cs_staticnat: 
     vm: "{{ inventory_hostname_short }}" 
     ip_address: "{{ public_ip }}"
-    vpc: dfas-vpc
-    network: app
+    vpc: DemoVPC
+    network: DemoWebtier
   when: public_ip is defined
   delegate_to: localhost
   register: nat_state

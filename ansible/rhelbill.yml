@@ -1,20 +1,17 @@
 # ---
 - name: bill validator
   hosts: "{{ host  }}"
-  become_method: runas
   gather_facts: no
   connection: local
 
   roles:
-    - create-win-instance
+    - create-rhel-instance
 
 - name: bill validator
   hosts: "{{ host  }}"
-  become_method: runas
   gather_facts: no
  
-
   roles:
-    - expunge-win-instance
+    - expunge-rhel-instance
 
     

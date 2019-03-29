@@ -1,20 +1,13 @@
-- name: check uptime
-  win_shell: |
-      function Get-Uptime {
-      $os = Get-WmiObject win32_operatingsystem
-      $uptime = (Get-Date) - ($os.ConvertToDateTime($os.lastbootuptime))
-      $Display = + $Uptime.Minutes  
-      Write-Output $Display
-      }
-      Get-Uptime
+- name: check for the uptime
+  shell: uptime | awk '{print $3}'
   register: uptime
-  until: uptime.stdout_lines[0] == "5"
+  until: uptime.stdout == "1"
   retries: 100
   delay: 10
 
-- name: print out the output
-  debug: 
-    msg: "{{ uptime.stdout_lines[0] }}"
+- name: show uptime
+  debug:
+    msg: "{{ uptime.stdout }}"
 
 - name: expunge the instance
   cs_instance:
@@ -31,17 +24,17 @@
     vm_id: "{{ instance_state.id }}"
     vm_name: "{{ instance_state.name }}"
     date_created: "{{ instance_state.created }}"
-    iaas_rate: 0.049663
-    os: "Windows 2012 R2"
+    iaas_rate: 0.067747
+    os: "Redhat 7.4"
     service_offering: "Standard 1 vCPU 2 GB RAM"
-    iaas: "IaaS Windows VM"
+    iaas: "IaaS RedHat VM"
     disk_size: 10
-    disk1: "High IOPS SSD - 5K"
-    disk2: "High IOPS SSD - 10K"
-    archive_storage_rate: 0 
-    std_storage_rate: 0
-    iops_5k_rate:  0.013624 
-    iops_10k_rate: 0.017030 
+    disk1: "Standard Data Volume (Tier 1)"
+    disk2: "n/a"
+    archive_storage_rate: 0
+    std_storage_rate: 0.008386 
+    iops_5k_rate: 0
+    iops_10k_rate: 0
     uptime: "{{ uptime.stdout }}"
 
 - name: perform database operations
@@ -91,3 +84,28 @@
         login_user: "{{ db_user }}"
         login_password: "{{ db_password }}"
         login_host: "{{ db_host }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

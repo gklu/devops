@@ -1,12 +1,14 @@
 [cloudstack]
 127.0.0.1
 
-[bill]
-centos6-bill ansible_host=172.16.10.147 public_ip=172.16.10.147
+[cent]
+centos-7-bill ansible_host=172.16.10.147 public_ip=172.16.10.147
 
+[rhel]
+redhat-7-bill ansible_host=172.16.10.147 public_ip=172.16.10.147
 
 [win]
-windows10-bill ansible_host=172.16.10.147 public_ip=172.16.10.147
+windows-2012-bill ansible_host=172.16.10.147 public_ip=172.16.10.147
 
 [win:vars]
 ansible_user=vagrant
