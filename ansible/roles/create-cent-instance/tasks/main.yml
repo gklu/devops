@@ -8,6 +8,9 @@
     #ssh_key: mykey
     disk_offering: "Archive Data Volume"
     state: started
+    user_data: |
+        #cloud-config
+        ssh_pwauth: yes
     tags:
       - key: purpose
         value: billing
