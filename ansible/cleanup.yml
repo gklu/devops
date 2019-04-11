@@ -1,0 +1,7 @@
+---
+- name: cleanup instances
+  hosts: cloudstack
+  connection: local
+  roles:
+    # - configure_cloudstack_credentials
+    - instance-cleanup

@@ -4,7 +4,7 @@
     display_name: "{{ inventory_hostname_short }}"
     template:   centos-7-billing
     service_offering: "Standard 1 vCPU 2 GB RAM"
-    network: DemoWebtier
+    network: validator
     #ssh_key: mykey
     disk_offering: "Archive Data Volume"
     state: started
@@ -24,8 +24,8 @@
   cs_staticnat: 
     vm: "{{ inventory_hostname_short }}" 
     ip_address: "{{ public_ip }}"
-    vpc: DemoVPC
-    network: DemoWebtier
+    vpc: BillingVPC
+    network: validator
   when: public_ip is defined
   delegate_to: localhost
   register: nat_state
