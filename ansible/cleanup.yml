@@ -3,5 +3,5 @@
   hosts: cloudstack
   connection: local
   roles:
-    # - configure_cloudstack_credentials
+    - configure_cloudstack_credentials
     - instance-cleanup
