@@ -26,4 +26,4 @@
   delegate_to: localhost
   with_items:
     - "{{ vm_name }}"
-  when: '"purpose" in vm_key and vm_name is defined'
+  when: '"purpose" in vm_key or vm_name is defined'
