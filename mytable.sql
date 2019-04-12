@@ -14,6 +14,7 @@ CREATE TABLE billing(
    std_storage_rate FlOAT(6),
    iops_5k_rate FlOAT(6),
    iops_10k_rate FlOAT(6),
+   daily_rate FlOAT(2) as (iaas_rate + archive_storage_rate + std_storage_rate + iops_5k_rate + iops_10k_rate),
    uptime INT,
    captured_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

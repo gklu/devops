@@ -1,5 +1,6 @@
 - name: list all running instances
   command: cs listVirtualMachines state=Running
+  delegate_to: localhost
   register: running_vm
 
 - name: get the facts about the running vm if any
