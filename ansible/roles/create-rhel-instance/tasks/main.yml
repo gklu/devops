@@ -8,6 +8,7 @@
     network: validator
     #ssh_key: mykey
     disk_offering: "Standard Data Volume"
+    disk_size: 10
     state: started
     tags:
       - key: purpose

@@ -7,6 +7,7 @@
     network: validator
     #ssh_key: mykey
     disk_offering: "Archive Data Volume"
+    disk_size: 10
     state: started
     user_data: |
         #cloud-config
