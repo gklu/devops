@@ -14,6 +14,12 @@
     vm_name: "{{ vm_facts.virtualmachine | json_query('[*].name')}}"
   when: not running_vm.stdout == ""
 
+- name: set fake vm_name
+  set_fact :
+    vm_name: 
+      - skipped
+  when: running_vm.stdout == ""
+
 - name: show running vm
   debug: 
     msg: "{{ vm_name }}"
@@ -27,5 +33,5 @@
   with_items:
     - "{{ vm_name }}"
   when: 
-    - '"purpose" in vm_key'
-    - vm_name is defined
+    - '"purpose" in vm_key  and running_vm.stdout != ""'
+    
