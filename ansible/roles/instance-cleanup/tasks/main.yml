@@ -10,7 +10,7 @@
 
 - name: get the tag key is should be purpose
   set_fact :
-    vm_key: "{{ vm_facts.virtualmachine | json_query('[*].tags[*].value') | flatten}}"
+    vm_key: "{{ vm_facts.virtualmachine | json_query('[*].tags[*].key') | flatten}}"
     vm_name: "{{ vm_facts.virtualmachine | json_query('[*].name')}}"
   when: not running_vm.stdout == ""
 
@@ -26,4 +26,4 @@
   delegate_to: localhost
   with_items:
     - "{{ vm_name }}"
-  when: '"billing" in vm_key' and running_vm.stdout != ""
+  when: '"purpose" in vm_key and running_vm.stdout != ""'
