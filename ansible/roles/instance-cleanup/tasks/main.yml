@@ -28,4 +28,4 @@
     - "{{ vm_name }}"
   when: 
     - '"purpose" in vm_key'
-    - 'vm_name is defined'
+    - vm_name is defined
