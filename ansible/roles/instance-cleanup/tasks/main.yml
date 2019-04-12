@@ -12,7 +12,7 @@
   set_fact :
     vm_key: "{{ vm_facts.virtualmachine | json_query('[*].tags[*].value') | flatten}}"
     vm_name: "{{ vm_facts.virtualmachine | json_query('[*].name')}}"
-   when: ! running.stdout == ""
+  when: ! running.stdout == ""
 
 - name: show running vm
   debug: 
