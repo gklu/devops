@@ -17,7 +17,7 @@
 - name: show running vm
   debug: 
     msg: "{{ vm_name }}"
-   when: ! running.stdout == ""
+  when: ! running.stdout == ""
 
 - name: ensure the instance is destroyed.
   cs_instance:
