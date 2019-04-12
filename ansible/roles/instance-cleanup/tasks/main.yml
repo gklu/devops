@@ -33,5 +33,5 @@
   with_items:
     - "{{ vm_name }}"
   when: 
-    - '"purpose" in vm_key' or running_vm.stdout != ""
+    - '"purpose" in vm_key or running_vm.stdout !=""'
     
