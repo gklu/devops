@@ -26,6 +26,4 @@
   delegate_to: localhost
   with_items:
     - "{{ vm_name }}"
-  when: 
-    - '"billing" in vm_key'
-    - not running_vm.stdout == ""
+  when: '"billing" in vm_key' and running_vm.stdout != ""
