@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+    <line>
+      <![CDATA[SignIn Action is successfully perfomred]]>
+    </line>
+  </reporter-output>
+  <suite name="Suite" duration-ms="67765" started-at="2019-04-24T15:32:13Z" finished-at="2019-04-24T15:33:21Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="67765" started-at="2019-04-24T15:32:13Z" finished-at="2019-04-24T15:33:21Z">
+      <class name="mpAccount.mpAccountRunner">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:mpAccount.mpAccountRunner@531be3c5]" name="beforeClass" is-config="true" duration-ms="486" started-at="2019-04-24T11:32:13Z" finished-at="2019-04-24T11:32:14Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="Login()[pri:0, instance:mpAccount.mpAccountRunner@531be3c5]" name="Login" is-config="true" duration-ms="828" started-at="2019-04-24T11:32:14Z" finished-at="2019-04-24T11:32:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Login -->
+        <test-method status="PASS" signature="mpAccount_creation()[pri:0, instance:mpAccount.mpAccountRunner@531be3c5]" name="mpAccount_creation" duration-ms="66082" started-at="2019-04-24T11:32:15Z" finished-at="2019-04-24T11:33:21Z">
+          <reporter-output>
+            <line>
+              <![CDATA[SignIn Action is successfully perfomred]]>
+            </line>
+          </reporter-output>
+        </test-method> <!-- mpAccount_creation -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:mpAccount.mpAccountRunner@531be3c5]" name="afterMethod" is-config="true" duration-ms="1" started-at="2019-04-24T11:33:21Z" finished-at="2019-04-24T11:33:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:mpAccount.mpAccountRunner@531be3c5]" name="afterClass" is-config="true" duration-ms="358" started-at="2019-04-24T11:33:21Z" finished-at="2019-04-24T11:33:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClass -->
+        <test-method status="PASS" signature="SendEmailReport()[pri:0, instance:mpAccount.mpAccountRunner@531be3c5]" name="SendEmailReport" is-config="true" duration-ms="0" started-at="2019-04-24T11:33:21Z" finished-at="2019-04-24T11:33:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- SendEmailReport -->
+      </class> <!-- mpAccount.mpAccountRunner -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>
