@@ -6,7 +6,7 @@ public class Constant {
 
 	public static final String Password = "";
 
-	public static final String Path_TestData = "C:\\Users\\BasitM\\eclipse-workspace\\Provisional\\src\\test\\resources\\data\\";
+	public static final String Path_TestData = "./Provisional/src/test/resources/data";
 
 	public static final String File_TestData = "TestData.xlsx";
 
@@ -48,7 +48,7 @@ public class Constant {
 
 	public static final int Col_Email = 15;
 
-	public static final String Path_ScreenShot = "C:\\Users\\BasitM\\eclipse-workspace\\Provisional\\src\\test\\resources\\data\\ScreenShots";
+	public static final String Path_ScreenShot = "./Provisional/src/test/resources/data/ScreenShots";
 
 	public static final String BP2_Instance = "BP2";
 	public static final String Provisioning_Instance = "Provisioning";

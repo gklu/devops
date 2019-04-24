@@ -32,7 +32,7 @@ public class Utils {
 
 		public static WebDriver driver = null;
 		
-		static String ChromePath = "./Provisional/src/test/resources/driver/chromedriver.exe";
+		static String ChromePath = "./Provisional/src/test/resources/driver/chromedriver";
 		static String FirefoxPath = "./Provisional/src/test/resources/driver/geckodriver.exe";
 		static String IEDriverPath = "./Provisional/src/test/resources/driver/IEDriverServer.exe";
 
