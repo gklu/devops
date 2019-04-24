@@ -6,7 +6,7 @@ public class Constant {
 
 	public static final String Password = "";
 
-	public static final String Path_TestData = "./Provisional/src/test/resources/data";
+	public static final String Path_TestData = "./Provisional/src/test/resources/data/";
 
 	public static final String File_TestData = "TestData.xlsx";
 
