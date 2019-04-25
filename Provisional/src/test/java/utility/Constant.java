@@ -6,7 +6,7 @@ public class Constant {
 
 	public static final String Password = "";
 
-	public static final String Path_TestData = "/home/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/data/";
+	public static final String Path_TestData = "/var/lib/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/data/";
 
 	public static final String File_TestData = "TestData.xlsx";
 
@@ -29,7 +29,7 @@ public class Constant {
 	public static final int Col_Modules = 6;
 
 	public static final int Col_Links = 7;
-	
+
 	//public static final int Col_Actions = 7;
 
 	public static final int Col_Result = 8;
@@ -48,7 +48,7 @@ public class Constant {
 
 	public static final int Col_Email = 15;
 
-	public static final String Path_ScreenShot = "/home/jenkins/workspace/migrations/Provisional/src/test/resources/data/ScreenShots";
+	public static final String Path_ScreenShot = "/var/lib/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/data/ScreenShots";
 
 	public static final String BP2_Instance = "BP2";
 	public static final String Provisioning_Instance = "Provisioning";
