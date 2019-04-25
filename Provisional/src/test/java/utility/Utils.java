@@ -28,6 +28,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 
+
 public class Utils {
 
 		public static WebDriver driver = null;
@@ -85,9 +86,16 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 
 	case "Chrome":
 
-				System.setProperty("webdriver.chrome.driver",ChromePath );
+				// ChromeOptions chromeOptions = new ChromeOptions();
+				// chromeOptions.addArguments("--headless");
+				// chromeOptions.addArguments('--disable-extensions');
+				// chromeOptions.addArguments("--no-sandbox");
 
-				driver = new ChromeDriver();
+				System.setProperty("webdriver.chrome.driver",ChromePath );
+				ChromeOptions options = new ChromeOptions();
+				options.addArguments("--headless", "--disable-gpu","--ignore-certificate-errors");
+
+				driver = new ChromeDriver(options);
 				driver.manage().window().maximize();
 
 
