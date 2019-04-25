@@ -34,8 +34,8 @@ public class Utils {
 		public static WebDriver driver = null;
 
 		static String ChromePath = "/usr/bin/chromedriver";
-		static String FirefoxPath = "/home/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/geckodriver.exe";
-		static String IEDriverPath = "/home/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/IEDriverServer.exe";
+		static String FirefoxPath = "/var/lib/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/geckodriver.exe";
+		static String IEDriverPath = "/var/lib/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/IEDriverServer.exe";
 
 
 
@@ -96,7 +96,7 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 				options.addArguments("--headless", "--disable-gpu","--ignore-certificate-errors","--whitelisted-ips=''");
 
 				driver = new ChromeDriver(options);
-				//driver.manage().window().maximize();
+				driver.manage().window().maximize();
 
 
 				break;
