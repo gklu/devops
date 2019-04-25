@@ -31,26 +31,26 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Utils {
 
 		public static WebDriver driver = null;
-		
-		static String ChromePath = "/home/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/chromedriver";
+
+		static String ChromePath = "/usr/bin/chromedriver";
 		static String FirefoxPath = "/home/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/geckodriver.exe";
 		static String IEDriverPath = "/home/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/IEDriverServer.exe";
 
 
 
 	public static WebDriver OpenBrowser(int iTestCaseRow) throws Exception{
-		
 
-		
+
+
 		String sBrowserName;
-		
+
 
 
 		String 	environmentName = ExcelUtils.getCellData(iTestCaseRow,Constant.Col_Environment);
-		
+
 		String 	InstanceName = ExcelUtils.getCellData(iTestCaseRow,Constant.Col_Instance);
 
-		
+
 
 		try{
 
@@ -65,13 +65,13 @@ public class Utils {
 
 		return driver;
 	}
-	
-	
+
+
 
 
 public static WebDriver instantiateDriver (String sBrowserName, String environmentname, String InstanceName ){
 	WebDriver driver = null;
-	switch(sBrowserName) { 
+	switch(sBrowserName) {
 
 	case "Mozilla":
 				// update the gecko driver exe as needed
@@ -82,17 +82,17 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 				driver.manage().window().maximize();
 
 				break;
-				
+
 	case "Chrome":
 
 				System.setProperty("webdriver.chrome.driver",ChromePath );
-				
+
 				driver = new ChromeDriver();
 				driver.manage().window().maximize();
 
 
 				break;
-		
+
 	case "Explorer":
 				System.setProperty("webdriver.ie.driver",IEDriverPath);
 		        driver = new InternetExplorerDriver();
@@ -107,8 +107,8 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 	}
 
 	String environmentUrl = null;
-			
-	switch(environmentname) { 
+
+	switch(environmentname) {
 
 			case "TEST":
 				// BP2
@@ -119,17 +119,17 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 				else if (InstanceName.equals(Constant.Provisioning_Instance))
 					environmentUrl = Constant.Provisioning_Test_URL;
 				break;
-	
+
 			case "Pre-Prod":
 		//BP2
 		if (InstanceName.equals(Constant.BP2_Instance)){
-			environmentUrl = Constant.BP2_PreProd_URL;	
+			environmentUrl = Constant.BP2_PreProd_URL;
 		}
 				//Provisioning
 				else if (InstanceName.equals(Constant.Provisioning_Instance))
 					environmentUrl = Constant.Provisioning_PreProd_URL;
 
-				
+
 				break;
 
 			case "Prod":
@@ -144,13 +144,13 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 
 
 		break;
-		
-		
+
+
 
 	default:
 		throw new RuntimeException("Env  Not Found");
 	}
-	
+
 
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
@@ -158,7 +158,7 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 
     driver.get(environmentUrl);
 	System.out.println("Running Test on: " + environmentUrl);
-    
+
     return driver;
 }
 
@@ -176,7 +176,7 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 
 			value = value.substring(7, posi);
 
-			posi = value.lastIndexOf(".");	
+			posi = value.lastIndexOf(".");
 
 			value = value.substring(posi + 1);
 
@@ -203,8 +203,8 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
         	 action.moveToElement(driver.findElement(By.xpath("//SPAN[@ng-bind-html='::item.label'][text()='Create Account Portfolio']")));
 
         	 Log.info("Create Account Portfolio link is accessible");
-        	 
-        	
+
+
 
          }
 
@@ -322,6 +322,3 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 
 
 }
-
-
-	
