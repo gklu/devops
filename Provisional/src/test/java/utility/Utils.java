@@ -93,10 +93,10 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 
 				System.setProperty("webdriver.chrome.driver",ChromePath );
 				ChromeOptions options = new ChromeOptions();
-				options.addArguments("--headless", "--disable-gpu","--ignore-certificate-errors");
+				options.addArguments("--headless", "--disable-gpu","--ignore-certificate-errors","--whitelisted-ips=''","");
 
 				driver = new ChromeDriver(options);
-				driver.manage().window().maximize();
+				//driver.manage().window().maximize();
 
 
 				break;
