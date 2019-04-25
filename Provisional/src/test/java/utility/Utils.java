@@ -92,10 +92,10 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 				// chromeOptions.addArguments("--no-sandbox");
 
 				System.setProperty("webdriver.chrome.driver",ChromePath );
-				ChromeOptions options = new ChromeOptions();
-				options.addArguments("--headless", "--disable-gpu","--ignore-certificate-errors","--whitelisted-ips=''");
+				//ChromeOptions options = new ChromeOptions();
+				//options.addArguments("--headless", "--disable-gpu","--ignore-certificate-errors","--whitelisted-ips=''");
 
-				driver = new ChromeDriver(options);
+				driver = new ChromeDriver();
 				driver.manage().window().maximize();
 
 
