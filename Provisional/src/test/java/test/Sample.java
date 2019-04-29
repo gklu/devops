@@ -13,19 +13,19 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class Sample {
-	public String baseUrl = "https://newtestsnow.mc2dev.arc-p.com/bp";
+	public String baseUrl = "http://csman.evay.cloud:8080/client/";
 	//String driverPath = "C:\\Users\\tester2\\Desktop\\MyTest\\Simple-Maven-Proj\\driver\\chromedriver.exe";
 	public WebDriver driver;
 
 	@BeforeTest
 	public void launchBrowser() {
 		System.out.println("launching chrome browser");
-		System.setProperty("webdriver.chrome.driver","C:\\Users\\tester2\\Desktop\\driver\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver");
 		driver = new ChromeDriver();
 		//System.setProperty("webdriver.chrome.driver", driverPath);
 		// System.setProperty("webdriver.firefox.marionette", driverPath);
 		// driver = new FirefoxDriver();
-		
+
 		driver.get(baseUrl);
 	}
 
