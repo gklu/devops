@@ -24,8 +24,8 @@ public class Sample {
 		System.setProperty("webdriver.chrome.driver","/bin/google-chrome");
 		ChromeOptions options = new ChromeOptions();
     options.addArguments("headless");
-		options.addArguments("--no-sandbox")
-    options.addArguments("window-size=1200x600");
+		options.addArguments("--no-sandbox");
+    options.addArguments("window-size=1280x1024");
 		driver = new ChromeDriver(options);
 		//System.setProperty("webdriver.chrome.driver", driverPath);
 		// System.setProperty("webdriver.firefox.marionette", driverPath);
