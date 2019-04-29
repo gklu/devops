@@ -55,7 +55,7 @@ public class Constant {
 
 // BP2 Environment and URLs
 
-	public static final String BP2_Test_URL = "https://newtestsnow.mc2dev.arc-p.com/bp/";
+	public static final String BP2_Test_URL = "http://csman.evay.cloud:8080/client/";
 	public static final String BP2_PreProd_URL = "https://newtestsnow.mc2dev.arc-p.com/bp/";
 	public static final String BP2_PROD_URL = "https://newtestsnow.mc2dev.arc-p.com/bp/";
 

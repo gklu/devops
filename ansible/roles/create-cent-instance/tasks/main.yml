@@ -10,8 +10,14 @@
     disk_size: 10
     state: started
     user_data: |
-        #cloud-config
-        ssh_pwauth: yes
+      #cloud-config
+      users:
+        - name: username
+          ssh_authorized_keys:
+            - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0PGOOW5yivd8IW0sUlX++8DIh8gkQ2QiznvbL7jKQcpHz
+      runcmd:
+        - sed -i -e '/PubkeyAuthentication yes/s/^#//g' /etc/ssh/sshd_config
+        - restart ssh
     tags:
       - key: purpose
         value: billing
