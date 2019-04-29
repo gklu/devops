@@ -74,7 +74,7 @@ public class mpAccountRunner{
 
 			} catch (Exception e) {
 				ExcelUtils.setCellData("Fail", iTestCaseRow, Constant.Col_Result);
-				//Utils.takeScreenshot(driver, sTestCaseName);
+			  Utils.takeScreenshot(driver, sTestCaseName);
 				test.log(LogStatus.FAIL, (ExcelUtils.getCellData(iTestCaseRow, Constant.Col_Links)));
 				Log.error(e.getMessage());
 
