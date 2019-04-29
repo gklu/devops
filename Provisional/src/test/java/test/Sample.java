@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 //import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 //import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -19,16 +20,16 @@ public class Sample {
 
 	@BeforeTest
 	public void launchBrowser() {
-		// System.out.println("launching chrome browser");
-		// System.setProperty("webdriver.chrome.driver","/bin/google-chrome");
-		// driver = new ChromeDriver();
+		System.out.println("launching chrome browser");
+		System.setProperty("webdriver.chrome.driver","/bin/google-chrome");
+		ChromeOptions options = new ChromeOptions();
+    options.addArguments("headless");
+    options.addArguments("window-size=1200x600");
+		driver = new ChromeDriver(options);
 		//System.setProperty("webdriver.chrome.driver", driverPath);
 		// System.setProperty("webdriver.firefox.marionette", driverPath);
 		// driver = new FirefoxDriver();
-		System.setProperty("webdriver.gecko.driver","/bin/geckodriver");
-		driver = new FirefoxDriver();
-		driver.get("http://www.google.com");
-		//driver.get(baseUrl);
+		driver.get(baseUrl);
 	}
 
 	@Test
