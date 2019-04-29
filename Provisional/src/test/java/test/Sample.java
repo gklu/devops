@@ -20,7 +20,7 @@ public class Sample {
 	@BeforeTest
 	public void launchBrowser() {
 		System.out.println("launching chrome browser");
-		System.setProperty("webdriver.chrome.driver","/usr/bin/chromedriver");
+		System.setProperty("webdriver.chrome.driver","/bin/google-chrome");
 		driver = new ChromeDriver();
 		//System.setProperty("webdriver.chrome.driver", driverPath);
 		// System.setProperty("webdriver.firefox.marionette", driverPath);
