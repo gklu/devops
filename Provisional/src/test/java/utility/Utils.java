@@ -34,7 +34,7 @@ public class Utils {
 		public static WebDriver driver = null;
 
 		static String ChromePath = "/usr/bin/chromedriver";
-		static String FirefoxPath = "/var/lib/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/geckodriver.exe";
+		static String FirefoxPath = "/bin/geckodriver";
 		static String IEDriverPath = "/var/lib/jenkins/workspace/migrations/mavenDemo/Provisional/src/test/resources/driver/IEDriverServer.exe";
 
 

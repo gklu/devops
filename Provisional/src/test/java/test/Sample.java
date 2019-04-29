@@ -25,8 +25,8 @@ public class Sample {
 		//System.setProperty("webdriver.chrome.driver", driverPath);
 		// System.setProperty("webdriver.firefox.marionette", driverPath);
 		// driver = new FirefoxDriver();
-		System.setProperty("webdriver.gecko.driver","/bin/geckodriver");
-		WebDriver driver = new FirefoxDriver();
+		System.setProperty("webdriver.gecko.driver","/bin/firefox");
+		driver = new FirefoxDriver();
 		driver.get("http://www.google.com");
 		//driver.get(baseUrl);
 	}
