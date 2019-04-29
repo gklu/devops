@@ -19,14 +19,16 @@ public class Sample {
 
 	@BeforeTest
 	public void launchBrowser() {
-		System.out.println("launching chrome browser");
-		System.setProperty("webdriver.chrome.driver","/bin/google-chrome");
-		driver = new ChromeDriver();
+		// System.out.println("launching chrome browser");
+		// System.setProperty("webdriver.chrome.driver","/bin/google-chrome");
+		// driver = new ChromeDriver();
 		//System.setProperty("webdriver.chrome.driver", driverPath);
 		// System.setProperty("webdriver.firefox.marionette", driverPath);
 		// driver = new FirefoxDriver();
-
-		driver.get(baseUrl);
+		System.setProperty("webdriver.gecko.driver","/bin/geckodriver");
+		WebDriver driver = new FirefoxDriver();
+		driver.get("http://www.google.com");
+		//driver.get(baseUrl);
 	}
 
 	@Test
