@@ -43,7 +43,7 @@ public class mpAccountRunner{
 
   @BeforeMethod
   public void Login() throws Exception {
-	  
+
 		DOMConfigurator.configure("log4j.xml");
 		Log.startTestCase(sTestCaseName);
 		ExcelUtils.setExcelFile(Constant.Path_TestData + Constant.File_TestData, "MissionPartner");
@@ -74,7 +74,7 @@ public class mpAccountRunner{
 
 			} catch (Exception e) {
 				ExcelUtils.setCellData("Fail", iTestCaseRow, Constant.Col_Result);
-				Utils.takeScreenshot(driver, sTestCaseName);
+				//Utils.takeScreenshot(driver, sTestCaseName);
 				test.log(LogStatus.FAIL, (ExcelUtils.getCellData(iTestCaseRow, Constant.Col_Links)));
 				Log.error(e.getMessage());
 
@@ -110,4 +110,3 @@ public class mpAccountRunner{
 	}
 
 }
-
