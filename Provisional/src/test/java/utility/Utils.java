@@ -87,10 +87,10 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 	case "Chrome":
 
 				ChromeOptions options = new ChromeOptions();
-				chromeOptions.addArguments("--headless");
-				chromeOptions.addArguments("--disable-extensions");
-				chromeOptions.addArguments("--no-sandbox");
-				chromeOptions.addArguments("--disable-gpu");
+				options.addArguments("--headless");
+				options.addArguments("--disable-extensions");
+				options.addArguments("--no-sandbox");
+				options.addArguments("--disable-gpu");
 
 				System.setProperty("webdriver.chrome.driver",ChromePath );
 				//ChromeOptions options = new ChromeOptions();
