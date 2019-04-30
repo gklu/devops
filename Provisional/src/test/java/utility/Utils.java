@@ -91,6 +91,7 @@ public static WebDriver instantiateDriver (String sBrowserName, String environme
 				options.addArguments("--disable-extensions");
 				options.addArguments("--no-sandbox");
 				options.addArguments("--disable-gpu");
+				options.addArguments("--disable-software-rasterizer");
 
 				System.setProperty("webdriver.chrome.driver",ChromePath );
 				//ChromeOptions options = new ChromeOptions();
