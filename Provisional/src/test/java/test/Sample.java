@@ -22,11 +22,8 @@ public class Sample {
 	public void launchBrowser() {
 		System.out.println("launching chrome browser");
 		System.setProperty("webdriver.chrome.driver","/bin/google-chrome");
-		ChromeOptions options = new ChromeOptions();
-    options.addArguments("headless");
-		options.addArguments("--no-sandbox");
-    options.addArguments("window-size=1280x1024");
-		driver = new ChromeDriver(options);
+	
+		driver = new ChromeDriver();
 		//System.setProperty("webdriver.chrome.driver", driverPath);
 		// System.setProperty("webdriver.firefox.marionette", driverPath);
 		// driver = new FirefoxDriver();
