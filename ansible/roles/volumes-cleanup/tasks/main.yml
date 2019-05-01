@@ -7,17 +7,18 @@
 
     - name: show the volume(s) to be deleted
       debug:
-        msg: "{{volumes.stdout}}"
+        msg: "{{ volumes.stdout|map(attribute='stdout_lines')|list }}"
 
-    - name: delete all data volumes
-      cs_volume:
-        name: DATA-57
-        state: absent
-      # loop:
-      #   - "{{ volumes.stdout }}"
-      when: volumes.stdout != ""
-      register: volumes_deleted
+    # - name: delete all data volumes
+    #   cs_volume:
+    #     name: "{{ item }}"
+    #     state: absent
+    #     poll_async: yes
+    #   loop:
+    #     - "{{ volumes.stdout }}"
+    #   when: volumes.stdout != ""
+    #   register: volumes_deleted
 
-    - name: show the volume(s) to be deleted
-      debug:
-        msg: "{{ volumes_deleted }}"
+    # - name: show the volume(s) to be deleted
+    #   debug:
+    #     msg: "{{ volumes_deleted }}"
