@@ -10,16 +10,16 @@
         #msg: "{{ volumes|map(attribute='stdout_lines')|list }}"
         msg: "{{ volumes.stdout_lines }}"
 
-    # - name: delete all data volumes
-    #   cs_volume:
-    #     name: "{{ item }}"
-    #     state: absent
-    #     poll_async: yes
-    #   loop:
-    #     - "{{ volumes.stdout }}"
-    #   when: volumes.stdout != ""
-    #   register: volumes_deleted
+    - name: delete all data volumes
+      cs_volume:
+        name: "{{ item }}"
+        state: absent
+        poll_async: yes
+      loop:
+        - "{{ volumes.stdout }}"
+      when: volumes.stdout_lines != ""
+      register: volumes_deleted
 
-    # - name: show the volume(s) to be deleted
-    #   debug:
-    #     msg: "{{ volumes_deleted }}"
+    - name: show the volume(s) to be deleted
+      debug:
+        msg: "{{ volumes_deleted }}"
