@@ -32,7 +32,7 @@ public class NewTest {
 	  System.setProperty("webdriver.gecko.driver", driverPath);
 	  FirefoxOptions options = new FirefoxOptions();
 	  options.setHeadless(true);
-      driver = new FirefoxDriver();
+    driver = new FirefoxDriver(options);
   }
 
   @AfterTest
