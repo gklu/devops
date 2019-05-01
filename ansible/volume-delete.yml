@@ -1,0 +1,5 @@
+- name: Test api call
+  hosts: cloudstack
+  connection: local
+  roles:
+    - volumes-cleanup
