@@ -7,7 +7,7 @@
 
     - name: show the volume(s) to be deleted
       debug:
-        msg: "{{ volumes.stdout|map(attribute='stdout_lines')|list }}"
+        msg: "{{ volumes|map(attribute='stdout_lines')|list }}"
 
     # - name: delete all data volumes
     #   cs_volume:
