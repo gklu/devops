@@ -21,3 +21,4 @@
     - name: show the volume(s) to be deleted
       debug:
         msg: "{{ volumes_deleted }}"
+      when: volumes.stdout_lines != ""
