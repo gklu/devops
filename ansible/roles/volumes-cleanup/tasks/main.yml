@@ -2,7 +2,7 @@
   delegate_to: localhost
   block:
     - name: list all data volumes
-      shell: cs listVolumes | jq -r .volume[].id
+      shell: cs listVolumes | jq -r .volume[].name
       register: volumes
 
     - name: show the volume(s) to be deleted
@@ -10,12 +10,14 @@
         msg: "{{volumes.stdout}}"
 
     - name: delete all data volumes
-      shell: cs deleteVolume id={{ item }}
-      loop:
-        - "{{ volumes.stdout }}"
-      when: volumes.stdout != ""
+      cs_volume:
+        name: DATA-57
+        state: absent
+      # loop:
+      #   - "{{ volumes.stdout }}"
+      when: ! volumes.stdout = ""
       register: volumes_deleted
 
-    - name: show deleted volumes
+    - name: show the volume(s) to be deleted
       debug:
         msg: "{{ volumes_deleted }}"
