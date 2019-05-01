@@ -10,7 +10,7 @@
         msg: "{{volumes.stdout}}"
 
     - name: delete all data volumes
-      shell: cs deleteVolume id="{{ item }}"
+      shell: cs deleteVolume id={{ item }}
       loop:
         - "{{ volumes.stdout }}"
       when: volumes.stdout != ""
