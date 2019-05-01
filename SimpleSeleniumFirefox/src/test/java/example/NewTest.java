@@ -14,7 +14,7 @@ import org.testng.annotations.AfterTest;
 public class NewTest {
 	
   public WebDriver driver;
-  String driverPath = "/usr/local/bin/geckodriver";
+  String driverPath = "/bin/geckodriver";
   
   @Test
   public void firstTest() {
