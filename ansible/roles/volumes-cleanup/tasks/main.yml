@@ -2,7 +2,7 @@
   delegate_to: localhost
   block:
     - name: list all data volumes
-      shell: cs listVolumes | jq -r .volume[].name
+      shell: cs listVolumes | jq -r .volume[].id
       register: volumes
 
     - name: show the volume(s) to be deleted
