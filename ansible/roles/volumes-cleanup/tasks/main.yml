@@ -16,7 +16,7 @@
         state: absent
         poll_async: yes
       loop:
-        - "{{ volumes.stdout }}"
+        - "{{ volumes.stdout_lines }}"
       when: volumes.stdout_lines != ""
       register: volumes_deleted
 
