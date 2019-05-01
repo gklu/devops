@@ -21,7 +21,7 @@
         name: "{{ item }}"
         state: absent
         poll_async: yes
-      loop: "{{ volumes.stdout_lines | list }}"
+      loop: "{{ volumes.stdout_lines|list }}"
       when: volumes.stdout_lines != ""
       register: volumes_deleted
 
