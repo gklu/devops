@@ -13,8 +13,9 @@
       cs_volume:
         name: "{{ item }}"
         state: absent
-      with_items:
+      loop:
         - "{{ volumes.stdout }}"
+      when: volumes.stdout != ""
       register: volumes_deleted
 
     - name: show the volume(s) to be deleted
