@@ -11,6 +11,8 @@
 
     - name: delete all data volumes
       shell: cs deleteVolume id={{ item }}
+      loop:
+        - "{{ volumes.stdout_lines }}"
       register: volumes_deleted
 
     # - name: delete all data volumes
