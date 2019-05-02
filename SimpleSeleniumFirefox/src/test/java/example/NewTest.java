@@ -19,21 +19,10 @@ public class NewTest {
   @Test
   public void firstTest() {
 
-	  driver.get("http://demo.guru99.com/test/guru99home/");
+		driver.get("http://demo.guru99.com/test/guru99home/");
 	  String title = driver.getTitle();
-	  Assert.assertTrue(title.contains("Demo Guru99 Page"));
-
-		//Search on Google
-		driver.findElement(By.name("q")).sendKeys("selenium webdriver");
-		driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
-
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		//Display number of results on Console
-		System.out.println("Total Results - " + driver.findElement(By.id("resultStats")).getText());
+	  //Assert.assertTrue(title.contains("Demo Guru99 Page"));
+	  System.out.println("Page title is - " + title );
 
 
   }
