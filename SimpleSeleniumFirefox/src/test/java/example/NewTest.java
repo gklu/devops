@@ -25,14 +25,7 @@ public class NewTest {
 
 	  driver.get("http://www.google.com");
 	  String title = driver.getTitle();
-	  driver.manage().timeouts().implicitlyWait(4,TimeUnit.SECONDS);
-	  WebElement queryBox = driver.findElement(By.name("q"));
-      queryBox.sendKeys("headless firefox");
-      WebElement searchBtn = driver.findElement(By.name("btnK"));
-      searchBtn.click();
-      WebElement iresDiv = driver.findElement(By.id("ires"));
-      iresDiv.findElements(By.tagName("a")).get(0).click();
-      System.out.println(driver.getPageSource());
+    System.out.println(driver.getPageSource());
 	  System.out.println("Page title is - " + title );
 
 }
