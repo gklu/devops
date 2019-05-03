@@ -44,7 +44,8 @@ public class NewTest {
 	  FirefoxOptions options = new FirefoxOptions();
 	  options.setBinary(firefoxBinary);
 	  //options.setHeadless(true);
-      driver = new FirefoxDriver(options);
+    driver = new FirefoxDriver(options);
+		driver.manage().window().maximize();
   }
 
   @AfterTest
