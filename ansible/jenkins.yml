@@ -2,12 +2,7 @@
 - name: setup jenkins server
   hosts: "{{ host  }}"
   become: yes
-  become_user: root
-  become_method: sudo
-  #user: vdonkor
+
 
   roles:
-    # #- create_sftp_users
-    # # - setup-jenkins
-    # - setup-gitlab
-    - setup-zabbix
+    - setup-jenkins

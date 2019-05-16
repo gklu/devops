@@ -16,3 +16,6 @@ ansible_password=password
 ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
 
+[jenkins]
+10.222.1.27
+

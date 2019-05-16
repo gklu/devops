@@ -1,11 +1,9 @@
 ---
-- name: create sftp users
+- name: setup docker environment
   hosts: "{{ host  }}"
   become: yes
-  become_user: root
-  become_method: sudo
-  #user: vdonkor
+  
 
   roles:
-    - create_sftp_users
+    - setup-docker
     # - vm-conversion

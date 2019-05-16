@@ -5,13 +5,16 @@
       - device-mapper-persistent-data
       - lvm2
       - python-setuptools
-      - epel-release
+      - http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     state: latest
   register: output
 
 - debug:
     msg: "{{output}}"
   
+- name: enable extra repos when running on red hat
+  command: subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"
+  when: ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: install pip and docker-compose
   command: "{{ item }}"
@@ -22,15 +25,6 @@
 
 - debug:
     msg: "{{output}}"
-
-# - name: add docker and epel repositories 
-#   yum_repository:
-#     name: "{{item.key}}"
-#     description: "{{item.key}} yum repo"
-#     baseurl: "{{item.value}}"
-#   with_dict: 
-#     - "{{ repo }}"
-#   register: output
 
 - debug:
     msg: "{{output }}"
@@ -70,6 +64,8 @@
     line: 'ExecStart=/usr/bin/dockerd -H unix:// -H tcp://0.0.0.0:2375'
   notify:
     - restart docker
+  tags:
+    - master
   register: output
 
 - debug:
