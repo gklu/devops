@@ -16,6 +16,4 @@ jenkins:
         - "View/Read:anonymous"
         - "Overall/Administer:authenticated"
   crumbIssuer: "standard"
-  security:
-    remotingCLI:
-      enabled: false
+  
