@@ -16,4 +16,19 @@ jenkins:
         - "View/Read:anonymous"
         - "Overall/Administer:authenticated"
   crumbIssuer: "standard"
+  clouds:
+    - docker:
+        name: "docker"
+        dockerApi:
+          dockerHost:
+            uri: "tcp://{{ docker_agent_ip }}:2375"
+        templates:
+          - labelString: "icdc_devops"
+            dockerTemplateBase:
+              image: "vdonkor/cicd-maven"
+            remoteFs: "/home/jenkins"
+            connector:
+              attach:
+                user: "root"
+            instanceCapStr: "10"
   

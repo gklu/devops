@@ -1,3 +1,4 @@
+
 - name: open http and https services
   firewalld:
     service: "{{item}}"
@@ -8,6 +9,25 @@
   loop:
     - http
     - https
+
+- name: list current users
+  shell: getent group | awk -F":" '{print $1}'
+  register: current_users
+
+# - name: change centos uid if exist
+#   user:
+#     name: centos
+#     uid: 1001
+#   when: '"centos" in current_users.stdout'
+
+
+# - name: change centos gid if exist
+#   group:
+#     name: centos
+#     gid: 1001
+#   when: '"centos" in current_users.stdout'
+  
+
 - name: create jenkins group
   group:
     name: jenkins

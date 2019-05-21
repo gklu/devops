@@ -17,5 +17,4 @@ ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
 
 [jenkins]
-10.222.1.27
-
+3.214.50.59

@@ -11,6 +11,8 @@ services:
       - jenkinsAdmin
     environment:
       - CASC_JENKINS_CONFIG=https://raw.githubusercontent.com/gklu/devops/master/jenkins.yaml
+    restart: always
+
   
 secrets:
   jenkinsAdmin:

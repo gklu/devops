@@ -5,12 +5,15 @@
       - device-mapper-persistent-data
       - lvm2
       - python-setuptools
+      - firewalld
       - http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     state: latest
-  register: output
 
-- debug:
-    msg: "{{output}}"
+- name: enable and start firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
   
 - name: enable extra repos when running on red hat
   command: subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"
@@ -20,42 +23,24 @@
   command: "{{ item }}"
   with_items:
     - "easy_install pip"
+    - "pip install --upgrade --force-reinstall pip==9.0.3"
     - "pip install docker-compose"
-  register: output
-
-- debug:
-    msg: "{{output}}"
-
-- debug:
-    msg: "{{output }}"
 
 - name: add docker repo 
   command: >
     yum-config-manager --add-repo 
     https://download.docker.com/linux/centos/docker-ce.repo
-  register: output
-
-- debug:
-    msg: "{{output }}"
 
 - name: install docker
   yum:
     name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
     state: latest
-  register: output
-
-- debug:
-    msg: "{{output }}"
  
 - name: enable and start docker
   service:
     name: docker
     enabled: yes
     state: restarted
-  register: output
-
-- debug:
-    msg: "{{output}}"
 
 - name: enable remote api execution
   lineinfile:
@@ -66,14 +51,9 @@
     - restart docker
   tags:
     - master
-  register: output
-
-- debug:
-    msg: "{{output}}"
 
 - name: reload systemctl daemon
   command: systemctl daemon-reload
-  register: output
 
-- debug:
-    msg: "{{output.stdout }}"
+
+
