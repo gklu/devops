@@ -1,5 +1,5 @@
 jenkins:
-  systemMessage: "This jenkins instance is configured using jenkins as code"
+  systemMessage: "This jenkins instance is for icdc program"
   agentProtocols:
     - "JNLP4-connect"
   securityRealm:
@@ -8,6 +8,8 @@ jenkins:
       users:
         - id: jenkinsAdmin
           password: ${jenkinsAdmin}
+        - id: vdonkor
+          password: ${vdonkor}
   authorizationStrategy:
     globalMatrix:
       grantedPermissions:
@@ -21,9 +23,9 @@ jenkins:
         name: "docker"
         dockerApi:
           dockerHost:
-            uri: "tcp://{{ docker_agent_ip }}:2375"
+            uri: "tcp://${DOCKER_AGENT_IP}:2375"
         templates:
-          - labelString: "icdc_devops"
+          - labelString: "icdc_maven"
             dockerTemplateBase:
               image: "vdonkor/cicd-maven"
             remoteFs: "/home/jenkins"
@@ -31,4 +33,35 @@ jenkins:
               attach:
                 user: "root"
             instanceCapStr: "10"
+  jobs:
+    - script: >
+        folder('icdc')
+    - url: https://raw.githubusercontent.com/gklu/devops/master/pipeline.groovy
+  tool:
+    git:
+      installations:
+        - name: Default
+          home: git
+    jdk:
+      installations:
+        - name: jdk11
+          home: /usr/lib/jvm/jre-11-openjdk
+    maven:
+      installations:
+        - name: maven-3.6.1
+          home: /usr/local/maven
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - string:
+              scope: GLOBAL
+              id: icdc-jenkin-slack
+              secret: "${SLACK_TOKEN}"
+              description: send slack notification
+
+unclassified:
+  slackNotifier:
+    teamDomain: ${SLACK_TEAM} # i.e. your-company (just the workspace name not the full url)
+    tokenCredentialId: icdc-jenkin-slack
   
