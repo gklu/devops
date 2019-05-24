@@ -33,23 +33,23 @@ jenkins:
               attach:
                 user: "root"
             instanceCapStr: "10"
-  jobs:
-    - script: >
-        folder('icdc')
-    - url: https://raw.githubusercontent.com/gklu/devops/master/pipeline.groovy
-  tool:
-    git:
-      installations:
-        - name: Default
-          home: git
-    jdk:
-      installations:
-        - name: jdk11
-          home: /usr/lib/jvm/jre-11-openjdk
-    maven:
-      installations:
-        - name: maven-3.6.1
-          home: /usr/local/maven
+jobs:
+  - script: >
+      folder('icdc')
+  - url: https://raw.githubusercontent.com/gklu/devops/master/pipeline.groovy
+tool:
+  git:
+    installations:
+      - name: Default
+        home: git
+  jdk:
+    installations:
+      - name: jdk11
+        home: /usr/lib/jvm/jre-11-openjdk
+  maven:
+    installations:
+      - name: maven-3.6.1
+        home: /usr/local/maven
 credentials:
   system:
     domainCredentials:
