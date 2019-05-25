@@ -1,4 +1,4 @@
-pipelineJob('testjobs/default-agent') {
+pipelineJob('icdc/c9c') {
   definition  {
     cps {
       script("""\
