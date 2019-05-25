@@ -62,7 +62,7 @@ credentials:
           - usernamePassword:
               scope: GLOBAL
               id: c9c-deployer
-              usename: "icdcTomcat"
+              username: "icdcTomcat"
               password: ${jenkinsAdmin}
               description: user for deploying c9c
 
