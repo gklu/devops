@@ -11,44 +11,40 @@ pipelineJob('icdc/c9c') {
           options {
             timestamps()
           }
+          tools { 
+            maven 'maven-3.6.1' 
+            jdk 'jdk11' 
+          }
           stages {
             stage('Checkout') {
               steps {
                 git branch: 'master',
-                    url: 'https://github.com/jonkiky/neo4j_for_testing.git'
-                }
+                url: 'https://github.com/jonkiky/neo4j_for_testing.git'
+              }
             }
             stage('Build') {
               steps {
-                withMaven(maven: 'maven-3.6.1') {
-                    sh "mvn package"
-                    sh "cd target"
-                    sh "mv RESTFfullDemo-0.0.1-SNAPSHOT.war RESTFfullDemo.war"
+                sh "mvn package"
+                sh "mv target/RESTFfullDemo-0.0.1-SNAPSHOT.war target/RESTFfullDemo.war"
+              }
+            }
+            stage('Deploy') {
+              when {
+                expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
                 }
               }
-            }
-          stage('Deploy') {
-            when {
-              expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              steps {
+                echo "SUCCESS"
               }
             }
-            steps {
-                environment {
-                //MATCH_CREDS = credentials('match')
-                echo "SUCCESS"
-                def attachments = [
-                [
-                    text: 'simple job logs',
-                    fallback: 'Need to check this',
-                    color: '#ff0000'
-                    ]
-                ]
-                slackSend(channel: '#random', attachments: attachments)
+          }
+          post {
+            always {
+              slackSend(channel: '#random', message: 'My first Jenkins build')
             }
           }
-        }
-      }""".stripIndent())
+        }""".stripIndent())
     }
   }
 }
