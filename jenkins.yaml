@@ -59,6 +59,12 @@ credentials:
               id: icdc-jenkin-slack
               secret: "${SLACK_TOKEN}"
               description: send slack notification
+          - usernamePassword:
+              scope: GLOBAL
+              id: c9c-deployer
+              usename: "icdcTomcat"
+              password: ${jenkinsAdmin}
+              description: user for deploying c9c
 
 unclassified:
   slackNotifier:
