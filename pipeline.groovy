@@ -45,6 +45,7 @@ pipelineJob('icdc/c9c') {
             }
           }
         }""".stripIndent())
+      sandbox(boolean sandbox = true)
     }
   }
 }
