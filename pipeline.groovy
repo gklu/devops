@@ -23,6 +23,9 @@ pipelineJob('icdc/c9c') {
               }
             }
             stage('Build') {
+              environment {
+                TOMCAT_IP = "${env.TOMCAT_IP}"
+              }
               steps {
                 sh "mvn package"
                 sh "mv target/RESTFfullDemo-0.0.1-SNAPSHOT.war target/RESTFfullDemo.war"
@@ -35,7 +38,10 @@ pipelineJob('icdc/c9c') {
                 }
               }
               steps {
-                echo "SUCCESS"
+                withCredentials([usernamePassword(credentialsId: 'c9c-deployer', passwordVariable: 'deployer_password', usernameVariable: 'deployer')]) {
+                  sh "set +x"
+                  sh 'cd target && curl -T "RESTFfullDemo.war" "http://$deployer:$deployer_password@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
+                }
               }
             }
           }
