@@ -35,12 +35,11 @@ pipelineJob('icdc/c9c') {
                 }
               }
               steps {
-                withCredentials([usernamePassword(credentialsId: 'c9c-deployer', passwordVariable: 'deployer_password', usernameVariable: 'deployer')]) {
-
-                set +x
-                cd target
-                curl -T "RESTFfullDemo.war" "http://$deployer:$deployer_password@env.TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"
-                }
+                // withCredentials([usernamePassword(credentialsId: 'c9c-deployer', passwordVariable: 'deployer_password', usernameVariable: 'deployer')]) {
+                // set +x
+                // cd target
+                // curl -T "RESTFfullDemo.war" "http://$deployer:$deployer_password@env.TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"
+                // }
               }
             }
           }
