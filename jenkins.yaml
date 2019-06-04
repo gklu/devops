@@ -28,6 +28,8 @@ jenkins:
           - labelString: "icdc_maven"
             dockerTemplateBase:
               image: "vdonkor/cicd-maven"
+              environmentsString: |
+                TOMCAT_IP=${TOMCAT_IP}
             remoteFs: "/home/jenkins"
             connector:
               attach:
