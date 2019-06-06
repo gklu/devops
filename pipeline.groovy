@@ -5,10 +5,7 @@ pipelineJob('icdc/c9c') {
         pipeline {
           agent {
             node {
-              withCredentials([usernameColonPassword(credentialsId: 'c9c-deployer', variable: 'USERPASS')]) {
-              }
               label 'icdc_maven'
-
             }
           }
           options {
@@ -41,7 +38,7 @@ pipelineJob('icdc/c9c') {
                 }
               }
               steps {
-                sh "set +x"
+                sh "echo SUCCESS"
             }
           }
         }
