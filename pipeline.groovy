@@ -24,7 +24,7 @@ pipelineJob('icdc/c9c') {
             }
             stage('Build') {
               environment {
-                TOMCAT_IP = "$TOMCAT_IP"
+                
               }
               steps {
                 sh "mvn package"
