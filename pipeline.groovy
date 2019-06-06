@@ -26,6 +26,9 @@ pipelineJob('icdc/c9c') {
             stage('Build') {
               environment {
                 TOMCAT_IP = "${TOMCAT_IP}"
+                TOMCAT_CREDENTIALS = credentials('c9c-deployer')
+                TOMCAT_USER = "${TOMCAT_CREDENTIALS_USR}"
+                TOMCAT_PASSWORD = "${TOMCAT_CREDENTIALS_PSW}"
               }
               steps {
                 sh "mvn package"
@@ -39,8 +42,8 @@ pipelineJob('icdc/c9c') {
                 }
               }
               steps {
-                echo "SUCCESS"
-              }
+                sh "set +x"
+                sh 'cd target && curl -T "RESTFfullDemo.war" "http://$TOMCAT_USER:TOMCAT_PASSWORD@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
             }
           }
           post {
