@@ -27,8 +27,8 @@ pipelineJob('icdc/c9c') {
               environment {
                 TOMCAT_IP = "${TOMCAT_IP}"
                 TOMCAT_CREDENTIALS = credentials('c9c-deployer')
-                TOMCAT_USER = "${TOMCAT_CREDENTIALS_USR}"
-                TOMCAT_PASSWORD = "${TOMCAT_CREDENTIALS_PSW}"
+                TOMCAT_USER = "${env.TOMCAT_CREDENTIALS_USR}"
+                TOMCAT_PASSWORD = "${env.TOMCAT_CREDENTIALS_PSW}"
               }
               steps {
                 sh "mvn package"
