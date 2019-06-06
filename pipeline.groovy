@@ -38,12 +38,8 @@ pipelineJob('icdc/c9c') {
                 currentBuild.result == null || currentBuild.result == 'SUCCESS' 
                 }
               }
-              node('test') {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c9c-deployer',
-                      usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
-                    sh 'echo uname=$USERNAME pwd=$PASSWORD'
-                }
+              steps {
+                echo "SUCCESS"
               }
             }
           }
