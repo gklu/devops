@@ -44,6 +44,7 @@ pipelineJob('icdc/c9c') {
                 sh "set +x"
             }
           }
+        }
           post {
             always {
               slackSend(channel: '#random', message: 'My first Jenkins build')
