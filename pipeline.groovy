@@ -42,7 +42,7 @@ pipelineJob('icdc/c9c') {
               }
               steps {
                 sh "set +x"
-                sh 'cd target && curl -T "RESTFfullDemo.war" "http://$DEPLOYER@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
+                sh 'cd target && curl -T "RESTFfullDemo.war" "http://@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
             }
           }
           post {
