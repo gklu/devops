@@ -5,6 +5,8 @@ pipelineJob('icdc/c9c') {
         pipeline {
           agent {
             node {
+              withCredentials([usernameColonPassword(credentialsId: 'c9c-deployer', variable: 'USERPASS')]) {
+              }
               label 'icdc_maven'
 
             }
@@ -26,9 +28,6 @@ pipelineJob('icdc/c9c') {
             stage('Build') {
               environment {
                 TOMCAT_IP = "${TOMCAT_IP}"
-                TOMCAT_CREDENTIALS = credentials('c9c-deployer')
-                TOMCAT_USER = "${env.TOMCAT_CREDENTIALS_USR}"
-                TOMCAT_PASSWORD = "${env.TOMCAT_CREDENTIALS_PSW}"
               }
               steps {
                 sh "mvn package"
@@ -43,7 +42,7 @@ pipelineJob('icdc/c9c') {
               }
               steps {
                 sh "set +x"
-                sh 'cd target && curl -T "RESTFfullDemo.war" "http://$TOMCAT_USER:TOMCAT_PASSWORD@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
+                sh 'cd target && curl -T "RESTFfullDemo.war" "http://$DEPLOYER@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
             }
           }
           post {
