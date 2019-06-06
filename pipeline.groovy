@@ -6,6 +6,7 @@ pipelineJob('icdc/c9c') {
           agent {
             node {
               label 'icdc_maven'
+
             }
           }
           options {
@@ -38,7 +39,11 @@ pipelineJob('icdc/c9c') {
                 }
               }
               steps {
-                echo "SUCCESS"
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'c9c-deployer',
+                      usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+
+                    sh 'echo uname=$USERNAME pwd=$PASSWORD'
+                }
               }
             }
           }
