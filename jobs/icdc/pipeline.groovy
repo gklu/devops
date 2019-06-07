@@ -13,7 +13,6 @@ pipelineJob('icdc/c9c') {
           extensions { }  // required to avoid tagging
         }
       }
-      sandbox()
     }
   }
 }
