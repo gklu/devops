@@ -3,12 +3,12 @@ pipelineJob('icdc/c9c') {
     cps {
       script("""\
         pipeline {
+          environment {
+            FOO = credentials("c9c-deployer")
+          }
           agent {
             node {
               label 'icdc_maven'
-              withCredentials([usernameColonPassword(credentialsId: 'c9c-deployer', variable: 'DEPLOYER')]) {
-                  sh "export $DEPLOYER"
-              }
             }
           }
           options {
@@ -41,7 +41,9 @@ pipelineJob('icdc/c9c') {
                 }
               }
               steps {
-                sh 'cd target && curl -T "RESTFfullDemo.war" "http://$DEPLOYER@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
+                sh 'echo "FOO is $FOO"'
+                sh 'echo "FOO_USR is $FOO_USR"'
+                sh 'echo "FOO_PSW is $FOO_PSW"'
             }
           }
         }
