@@ -38,7 +38,7 @@ jenkins:
 jobs:
   - script: >
       folder('icdc')
-  - url: https://raw.githubusercontent.com/gklu/devops/master/pipeline.groovy
+  - url: https://raw.githubusercontent.com/gklu/devops/master/jobs/icdc/pipeline.groovy
 tool:
   git:
     installations:
