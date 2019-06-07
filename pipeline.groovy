@@ -4,7 +4,6 @@ pipelineJob('icdc/c9c') {
       script("""\
         pipeline {
           environment {
-            FOO = credentials("c9c-deployer")
           }
           agent {
             node {
@@ -41,10 +40,7 @@ pipelineJob('icdc/c9c') {
                 }
               }
               steps {
-                sh 'echo "FOO is $FOO"'
-                sh 'echo "FOO_USR is $FOO_USR"'
-                sh 'echo "FOO_PSW is $FOO_PSW"'
-            }
+                sh "echo SUCCESS"
           }
         }
           post {
