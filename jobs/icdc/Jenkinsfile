@@ -34,7 +34,11 @@ pipeline {
         }
       }
       steps {
-        sh "echo SUCCESS"
+        ansiColor('xterm') {
+          withCredentials([usernameColonPassword(credentialsId: 'c9c-deployer', variable: 'DEPLOYER')]) {
+            sh 'cd target && curl -T "RESTFfullDemo.war" "http://"$DEPLOYER"@"$TOMCAT_IP"/manager/text/deploy?path=/RESTFfullDemo&update=true"'
+          }
+        }
       }
     }
   }
