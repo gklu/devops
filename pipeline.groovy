@@ -39,6 +39,7 @@ pipelineJob('icdc/c9c') {
               }
               steps {
                 withCredentials([usernameColonPassword(credentialsId: 'c9c-deployer', variable: 'DEPLOYER')]) {
+                  sh 'export $DEPLOYER'
                   sh 'cd target && curl -T "RESTFfullDemo.war" "http://$DEPLOYER@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true"'
                 }
             }
