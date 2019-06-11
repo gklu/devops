@@ -73,3 +73,14 @@ unclassified:
     teamDomain: ${SLACK_TEAM} # i.e. your-company (just the workspace name not the full url)
     tokenCredentialId: icdc-jenkin-slack
   
+  globalLibraries:
+    libraries:
+      - defaultVersion: "master"
+        name: "shared-library"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/vdonkor/shared-library"
+                traits:
+                  - "branchDiscoveryTrait"
