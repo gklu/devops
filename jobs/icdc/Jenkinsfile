@@ -24,7 +24,7 @@ def sendSlackMessage() {
         ]
     )
     try {
-        sh "curl -X POST -H 'Content-type: application/json' --data '${slack}'  '${env.SLACK_URL}'"
+        sh "curl -X POST -H 'Content-type: application/json' --data '${slack}'  '${SLACK_URL}'"
     } catch (err) {
         echo "${err} Slack notify failed"
     }
@@ -54,6 +54,7 @@ pipeline {
     stage('Build') {
       environment {
         TOMCAT_IP = "${TOMCAT_IP}"
+        SLACK_URL = "${SLACK_URL}"
       }
       steps {
         sh "mvn package"
