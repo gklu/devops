@@ -28,6 +28,7 @@ jenkins:
               image: "vdonkor/cicd-maven"
               environmentsString: |
                 TOMCAT_IP=${TOMCAT_IP}
+                SLACK_URL=${SLACK_URL}
             remoteFs: "/home/jenkins"
             connector:
               attach:
