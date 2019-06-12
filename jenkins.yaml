@@ -8,8 +8,6 @@ jenkins:
       users:
         - id: jenkinsAdmin
           password: ${jenkinsAdmin}
-        - id: vdonkor
-          password: ${vdonkor}
   authorizationStrategy:
     globalMatrix:
       grantedPermissions:
@@ -67,6 +65,12 @@ credentials:
               username: "icdcTomcat"
               password: ${jenkinsAdmin}
               description: user for deploying c9c
+          - usernamePassword:
+              scope: GLOBAL
+              id: vdonkor
+              username: vdonkor
+              password: ${vdonkor}
+              description: github checkout
 
 unclassified:
   slackNotifier:

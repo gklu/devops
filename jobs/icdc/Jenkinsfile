@@ -1,7 +1,18 @@
 //load shared library for slack notification
-@Library('shared-library')_
+//@Library('shared-library')_
+
+//map slack colors to build result
+def BUILD_COLORS = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
+
+//extract user from build info
+def getUser() {
+    return currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserId()
+}
 
 pipeline {
+  environment {
+    BUILD_USER = ''
+  }
   agent {
     node {
       label 'icdc_maven'
@@ -47,8 +58,26 @@ pipeline {
   }
   post {
     always {
-      slackSend(channel: '#random', message: 'My first Jenkins build')
-      sh 'echo "Your application is deployed to http://k9dc.essential-dev.com/RESTFfullDemo"'
+      //slackSend(channel: '#random', message: 'My first Jenkins build')
+      //sh 'echo "Your application is deployed to http://k9dc.essential-dev.com/RESTFfullDemo"'
+      script {
+        BUILD_USER = getUser()
+      }
+      sh '''
+            curl -H 'Content-type: application/json' -X POST --data-urlencode -d 
+            "payload='{
+                "attachments": [
+                    {
+                        "fallback": "ICDC Jenkins Build",
+                        "color": "BUILD_COLORS[currentBuild.currentResult]",
+                        "author_name": "Jenkins",
+                        "title": "${currentBuild.currentResult}",
+                        "text": "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER}\n Details at: ${env.BUILD_URL}",
+                        "footer": "icdc devops",
+                    }
+                ]
+              }'" https://hooks.slack.com/services/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
+         '''
     }
   }
 }
