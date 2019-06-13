@@ -58,7 +58,7 @@ credentials:
           - string:
               scope: GLOBAL
               id: authorization_bearer
-              secret: "${authorization_bearer}"
+              secret: "${bearer}"
               description: neo4j authorization bearer
           - usernamePassword:
               scope: GLOBAL
