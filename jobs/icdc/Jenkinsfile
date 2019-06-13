@@ -57,7 +57,7 @@ pipeline {
         SLACK_URL = "${SLACK_URL}"
       }
       steps {
-        sh "ls -l ${WORKSPACE} "
+        sh "ls -l ${WORKSPACE}"
         sh "mvn package"
         sh "mv target/ICDC-0.0.1.war target/ICDC.war"
       }
@@ -77,11 +77,11 @@ pipeline {
       }
     }
   }
-  // post {
-  //   always {
-  //     //slackSend(channel: '#random', message: 'My first Jenkins build')
-  //     //sh 'echo "Your application is deployed to http://k9dc.essential-dev.com/RESTFfullDemo"'
-  //     sendSlackMessage()
-  //   }
+  post {
+    always {
+      //slackSend(channel: '#random', message: 'My first Jenkins build')
+      //sh 'echo "Your application is deployed to http://k9dc.essential-dev.com/RESTFfullDemo"'
+      //sendSlackMessage()
+    }
   }
 }
