@@ -57,9 +57,9 @@ credentials:
       - credentials:
           - string:
               scope: GLOBAL
-              id: icdc-jenkin-slack
-              secret: "${SLACK_TOKEN}"
-              description: send slack notification
+              id: authorization_bearer
+              secret: "${authorization_bearer}"
+              description: neo4j authorization bearer
           - usernamePassword:
               scope: GLOBAL
               id: c9c-deployer
