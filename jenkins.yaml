@@ -73,6 +73,12 @@ credentials:
               username: vdonkor
               password: ${vdonkor}
               description: github checkout
+          - usernamePassword:
+              scope: GLOBAL
+              id: neo4j_user
+              username: neo4j
+              password: ${neo4j}
+              description: neo4j db user and password
 
 unclassified:
   slackNotifier:
