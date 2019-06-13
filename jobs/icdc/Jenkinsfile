@@ -48,7 +48,7 @@ pipeline {
     stage('Checkout') {
       steps {
         git branch: 'master',
-            url: 'https://github.com/jonkiky/neo4j_for_testing.git'
+            url: 'https://github.com/CBIIT/icdc-codebase.git'
       }
     }
     stage('Build') {
@@ -57,8 +57,9 @@ pipeline {
         SLACK_URL = "${SLACK_URL}"
       }
       steps {
+        sh "ls -l ${WORKSPACE} "
         sh "mvn package"
-        sh "mv target/RESTFfullDemo-0.0.1-SNAPSHOT.war target/RESTFfullDemo.war"
+        sh "mv target/ICDC-0.0.1.war target/ICDC.war"
       }
     }
     stage('Deploy') {
@@ -70,17 +71,17 @@ pipeline {
       steps {
         ansiColor('xterm') {
           withCredentials([usernameColonPassword(credentialsId: 'c9c-deployer', variable: 'DEPLOYER')]) {
-            sh 'cd target && curl -T RESTFfullDemo.war http://$DEPLOYER@$TOMCAT_IP/manager/text/deploy?path=/RESTFfullDemo&update=true'
+            sh 'cd target && curl -T ICDC.war http://$DEPLOYER@$TOMCAT_IP/manager/text/deploy?path=/ICDC&update=true'
           }
         }
       }
     }
   }
-  post {
-    always {
-      //slackSend(channel: '#random', message: 'My first Jenkins build')
-      //sh 'echo "Your application is deployed to http://k9dc.essential-dev.com/RESTFfullDemo"'
-      sendSlackMessage()
-    }
+  // post {
+  //   always {
+  //     //slackSend(channel: '#random', message: 'My first Jenkins build')
+  //     //sh 'echo "Your application is deployed to http://k9dc.essential-dev.com/RESTFfullDemo"'
+  //     sendSlackMessage()
+  //   }
   }
 }
