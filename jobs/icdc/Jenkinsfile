@@ -60,7 +60,8 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'authorization_bearer', variable: 'BEARER')]) {
           sh "mv ${WORKSPACE}/src/main/resources/application_example.properties ${WORKSPACE}/src/main/resources/application.properties"
-          sh "cd ${WORKSPACE}/src/main/resources && sed -e 's/localhost/${NEO4J_IP}/g'; 's/Basic 123456/${BEARER}' application.properties"
+          sh "cd ${WORKSPACE}/src/main/resources && sed -i 's/localhost/${NEO4J_IP}/g' application.properties"
+          sh "cd ${WORKSPACE}/src/main/resources && sed -i 's/Basic 123456/${BEARER}' application.properties"
           sh "cat ${WORKSPACE}/src/main/resources/application.properties"
           sh "mvn package"
           sh "mv target/ICDC-0.0.1.war target/ICDC.war"
