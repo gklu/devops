@@ -29,6 +29,7 @@ jenkins:
               environmentsString: |
                 TOMCAT_IP=${TOMCAT_IP}
                 SLACK_URL=${SLACK_URL}
+                DB_IP=${DB_IP}
             remoteFs: "/home/jenkins"
             connector:
               attach:
