@@ -47,8 +47,9 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'yizhen-dev',
-            url: 'https://github.com/CBIIT/icdc-codebase.git'
+        git branch: 'master',
+            url: 'https://github.com/yewu/icdc_codebase'
+            credentialsId: 'vdonkor'
       }
     }
     stage('Build') {
