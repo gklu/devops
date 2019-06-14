@@ -48,8 +48,8 @@ pipeline {
     stage('Checkout') {
       steps {
         git branch: 'master',
-            url: 'https://github.com/CBIIT/icdc_codebase',
-            credentialsId: 'vdonkor'
+            url: 'https://github.com/CBIIT/icdc-codebase'
+            //credentialsId: 'vdonkor'
       }
     }
     stage('Build') {
