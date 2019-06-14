@@ -48,7 +48,7 @@ pipeline {
     stage('Checkout') {
       steps {
         git branch: 'master',
-            url: 'https://github.com/yewu/icdc_codebase',
+            url: 'https://github.com/CBIIT/icdc_codebase',
             credentialsId: 'vdonkor'
       }
     }
