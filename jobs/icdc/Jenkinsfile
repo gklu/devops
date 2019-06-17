@@ -88,9 +88,8 @@ pipeline {
   }
   post {
     always {
-      //slackSend(channel: '#random', message: 'My first Jenkins build')
-      sh 'echo "Your application is deployed to http://k9dc.essential-dev.com/RESTFfullDemo"'
-      //sendSlackMessage()
+      
+      sendSlackMessage()
     }
   }
 }
