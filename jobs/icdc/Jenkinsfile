@@ -57,7 +57,7 @@ pipeline {
         TOMCAT_IP = "${TOMCAT_IP}"
         SLACK_URL = "${SLACK_URL}"
         // NEO4J_IP  = "${NEO4J_IP}"
-        NEO4J_IP = "essential-dev.com"
+        NEO4J_IP = "neo4j.essential-dev.com"
       }
       steps {
         withCredentials([string(credentialsId: 'authorization_bearer', variable: 'BEARER'), usernamePassword(credentialsId: 'neo4j_user', passwordVariable: 'NEO4J_PASSWORD', usernameVariable: 'NEO4J_USER')]) {
