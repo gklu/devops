@@ -37,6 +37,9 @@ pipeline {
       label 'icdc_maven'
     }
   }
+  triggers {
+      cron('H 5 * * 1-5')
+  }
   options {
     timestamps()
   }
