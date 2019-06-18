@@ -50,7 +50,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'master',
+        git branch: 'ICDC-297',
             url: 'https://github.com/CBIIT/icdc-codebase'
             //credentialsId: 'vdonkor'
       }
