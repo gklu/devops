@@ -1,0 +1,59 @@
+---
+- name: check network speed
+  hosts: workstation
+  gather_facts: no
+
+  tasks:
+
+    - name: remove the downloaded file if already exist
+      file:
+        dest: ./network.dmg
+        state: absent
+
+    - name: check download for okc_outside
+      shell: lftp -e 'pget https://s3.amazonaws.com/name.com/downloads/network.dmg; exit' | awk '{print $5}'
+      register: okc_outside
+
+    - name: remove the downloaded files
+      file:
+        dest: ./network.dmg
+        state: absent    
+
+    - name: capture relevant details
+      set_fact:
+        outside_speed: "{{ okc_outside.stdout }}"
+       
+
+    - name: check download speed internall
+      shell: lftp -e 'pget https://s3.amazonaws.com/name.com/downloads/network.dmg; exit' | awk '{print $5}'
+      register: okc_internal
+
+    - name: capture relevant details
+      set_fact:
+        internal_speed: "{{ okc_internal.stdout }}"
+
+    - name: remove the downloaded files
+      file:
+        dest: ./network.dmg
+        state: absent    
+
+    - name: create mysql statement
+      shell: >
+        echo "insert into okc_outside (speed) values( {{ outside_speed }} );" > okc.sql
+        echo "insert into okc_inside (speed) values( {{ inside_speed }} );" >> okc.sql    
+          
+    # - name: perform database operations
+    #   delegate_to: localhost
+    #   block:
+    #     - name: create mysql statement
+    #       shell: >
+    #         echo "insert into okc_outside values( {{ speed }} );" > okc_outside.sql
+
+    - name: import speed data
+      mysql_db:
+        state: import
+        name: network
+        target: okc_outside.sql
+        login_user: root
+        login_password: password
+        login_host: 127.0.0.1    
