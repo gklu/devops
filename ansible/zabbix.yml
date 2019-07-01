@@ -1,0 +1,9 @@
+---
+- name: setup jenkins server
+  hosts: "{{ host  }}"
+  become: yes
+
+
+  roles:
+    - setup-zabbix
+ 

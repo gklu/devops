@@ -21,3 +21,6 @@ ansible_winrm_server_cert_validation=ignore
 
 [workstation]
 172.16.10.9
+
+[zabbix]
+10.0.0.132
