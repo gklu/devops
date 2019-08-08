@@ -102,7 +102,7 @@
 
 
 - name: convert all vmdk to qcow2
-  command: qemu-img convert -O qcow2 {{ item | basename }} {{ item | basename | splitext | first }}.qcow2
+  command: qemu-img convert -O qcow2 -o compat=0.10 {{ item | basename }} {{ item | basename | splitext | first }}.qcow2
   args:
     chdir: "{{ sftp_user_home }}/VMImages"
   with_items:
@@ -184,7 +184,6 @@
     - name: show vm state
       debug:
         msg: "{{ vm_state }}"
-
 
     - name: attach all the volumes to instance 
       cs_volume:
