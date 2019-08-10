@@ -25,7 +25,7 @@ public  static WebDriver driver;
 
 			case "chrome":
 				ChromeOptions options = new ChromeOptions();
-		        options.addArguments( "--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors");
+		        options.addArguments( "--headless", "--disable-gpu", "--no-sandbox","--disable-dev-shm-usage'","--whitelisted-ips");
 
 		      
 				System.setProperty("webdriver.chrome.driver", Config_Reader.getProperty("chrome.driver.path"));
