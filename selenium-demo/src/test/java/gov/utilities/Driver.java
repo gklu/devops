@@ -24,13 +24,13 @@ public  static WebDriver driver;
 			break;
 
 			case "chrome":
-				ChromeOptions options = new ChromeOptions();
-		        options.addArguments( "--headless", "--disable-gpu", "--no-sandbox","--disable-dev-shm-usage'","--whitelisted-ips");
+				// ChromeOptions options = new ChromeOptions();
+		        // options.addArguments( "--headless", "--disable-gpu", "--no-sandbox","--disable-dev-shm-usage'","--whitelisted-ips");
 
 		      
 				System.setProperty("webdriver.chrome.driver", Config_Reader.getProperty("chrome.driver.path"));
-				  setDriver(new ChromeDriver(options));
-			//setDriver(new ChromeDriver());
+				//   setDriver(new ChromeDriver(options));
+				setDriver(new ChromeDriver());
 
 			break;
 			
