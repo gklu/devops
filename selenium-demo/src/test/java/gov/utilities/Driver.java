@@ -24,9 +24,9 @@ public  static WebDriver driver;
 			break;
 
 			case "chrome":
-				ChromeOptions options = new ChromeOptions();
+				// ChromeOptions options = new ChromeOptions();
 		        // options.addArguments( "--headless", "--disable-gpu", "--no-sandbox","--disable-dev-shm-usage'","--whitelisted-ips");
-				options.addArguments( "--disable-gpu","--disable-dev-shm-usage'","--whitelisted-ips");
+				// options.addArguments( "--disable-gpu","--disable-dev-shm-usage'","--whitelisted-ips");
 
 		      
 				System.setProperty("webdriver.chrome.driver", Config_Reader.getProperty("chrome.driver.path"));
