@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="2024" started-at="2019-08-12T19:09:17Z" finished-at="2019-08-12T19:09:19Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="2024" started-at="2019-08-12T19:09:17Z" finished-at="2019-08-12T19:09:19Z">
+      <class name="gov.nih.k9dc.NewTest">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:gov.nih.k9dc.NewTest@c818063]" name="beforeClass" is-config="true" duration-ms="1366" started-at="2019-08-12T19:09:17Z" finished-at="2019-08-12T19:09:18Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="f()[pri:0, instance:gov.nih.k9dc.NewTest@c818063]" name="f" duration-ms="563" started-at="2019-08-12T19:09:18Z" finished-at="2019-08-12T19:09:19Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- f -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:gov.nih.k9dc.NewTest@c818063]" name="afterClass" is-config="true" duration-ms="82" started-at="2019-08-12T19:09:19Z" finished-at="2019-08-12T19:09:19Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClass -->
+      </class> <!-- gov.nih.k9dc.NewTest -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>
