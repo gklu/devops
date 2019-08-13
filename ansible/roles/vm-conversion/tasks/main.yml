@@ -87,6 +87,10 @@
   register: parsed_ovf
   when: ova_files|length > 0
 
+- name: show detail
+  debug: 
+    msg: "{{parsed_ovf}}"
+
 - name: set instance facts
   set_fact:
     instance_name: "{{ parsed_ovf.results| map(attribute='vm_name')|first }}"
