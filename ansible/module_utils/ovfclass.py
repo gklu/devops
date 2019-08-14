@@ -168,7 +168,7 @@ class OVFData():
             '100': 'Linux 2.6.x (64-Bit)',
             '101': 'Linux (64-Bit)',
             '106': 'CentOS (32-bit)',
-            '107': 'CentOS (64-bit)',
+            '107': 'CentOS 6.5 (64-bit)',
             '108': 'Oracle Linux (32-bit)',
             '109': 'Oracle Linux (64-bit)',
         }   # end osTypeLinux

@@ -177,30 +177,30 @@
       retries: 100
       delay: 10
 
-    - name: create instance from the template
-      cs_instance:
-        name: "{{ instance_name | regex_replace('(_)','-') }}"
-        display_name: "{{ instance_name }}"
-        template: "{{ instance_name }}"
-        network: app
-        service_offering: t2.large
-        state: started
-      register: vm_state
+    # - name: create instance from the template
+    #   cs_instance:
+    #     name: "{{ instance_name | regex_replace('(_)','-') }}"
+    #     display_name: "{{ instance_name }}"
+    #     template: "{{ instance_name }}"
+    #     network: app
+    #     service_offering: t2.large
+    #     state: started
+    #   register: vm_state
     
-    - name: show vm state
-      debug:
-        msg: "{{ vm_state }}"
+    # - name: show vm state
+    #   debug:
+    #     msg: "{{ vm_state }}"
 
-    - name: attach all the volumes to instance 
-      cs_volume:
-        name:  "{{ item | splitext | first }}"
-        vm: "{{ instance_name }}"
-        state: attached
-      with_items:
-        - "{{ volumes }}"
-      when:
-        - vm_state.state == 'Running'
-        - volumes|length > 0
+    # - name: attach all the volumes to instance 
+    #   cs_volume:
+    #     name:  "{{ item | splitext | first }}"
+    #     vm: "{{ instance_name }}"
+    #     state: attached
+    #   with_items:
+    #     - "{{ volumes }}"
+    #   when:
+    #     - vm_state.state == 'Running'
+    #     - volumes|length > 0
 
 
 
