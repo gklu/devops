@@ -112,7 +112,7 @@
   when: vmdk_files|length > 0
 
 - name: move converted files to migrations
-  command: mv "*.qcow2" /var/www/html/migrations
+  shell: mv ./*.qcow2 /var/www/html/migrations
   args:
     chdir: "{{ sftp_user_home }}/VMImages"
   when: vmdk_files|length > 0
