@@ -95,14 +95,14 @@
   set_fact:
     instance_name: "{{ parsed_ovf.results| map(attribute='vm_name')|first }}"
     root_volume: "{{ parsed_ovf.results[0].root_volume | json_query('file')}}"
-    os_type: "{{ parsed_ovf.results[0].os_type }}"
+    fs_type: "{{ parsed_ovf.results[0].os_type }}"
     # os_type: "{{ parsed_ovf.results| map(attribute='os_type')|first }}"
     volumes: "{{ parsed_ovf.results[0].volumes|map(attribute='file')|list}}"
   when: ova_files|length > 0
 
 - name: display vm facts
   debug:
-    msg: "{{ instance_name }} - {{ os_type }} -{{ root_volume }} - {{ volumes }}"
+    msg: "{{ instance_name }} - {{ os_type }} -{{ root_volume }} - {{ volumes }} - {{ fs_type}}"
   when: ova_files|length > 0
 
 
