@@ -74,7 +74,7 @@
     - {src: "{{sshkey}}" ,dest: "sshkey"}
 
 - name: clean sshkey file
-  shell: cat sshkey | awk '{$1=$1;print}' > tempssh && mv tempssh sshkey && chown centos:centos sshkey
+  shell: cat sshkey | awk '{$1=$1;print}' > tempssh && mv tempssh sshkey && chown jenkins:jenkins sshkey
   args:
     chdir: "{{jenkins_home}}/jk_secrets"
     
