@@ -4,6 +4,7 @@
   connection: local
   gather_facts: false
 
-    
+  environment:
+    rubrik_cdm_node_ip: 
   roles:
     - rubrik

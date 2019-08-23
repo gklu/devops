@@ -14,13 +14,13 @@
 - name: create jenkins group
   group:
     name: jenkins
-    gid: 1001
+    gid: 1000
     state: present
 
 - name: create jenkins user
   user:
     name: jenkins
-    uid: 1001
+    uid: 1000
     group: jenkins
 
 - name: install openjdk11 for local slave
