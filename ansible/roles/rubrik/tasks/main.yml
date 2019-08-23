@@ -1,0 +1,18 @@
+---
+# tasks file for rubrik
+
+- name: check cluster version
+  rubrik_cluster_version:
+    provider: "{{ credentials }}"
+  register: rb_version
+
+- name: show version
+  debug:
+    msg: "{{ rb_version }}"
+
+- name: attempt live mount
+  rubrik_vsphere_live_mount:
+    provider: "{{ credentials }}"
+    vm_name: "{{ item }}"
+  loop:
+    - "{{ instance_name }}"

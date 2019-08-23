@@ -1,0 +1,91 @@
+jenkins:
+  systemMessage: "This jenkins deployed using JCASC"
+  agentProtocols:
+    - "JNLP4-connect"
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: developer
+          password: ${jenkins}
+  authorizationStrategy:
+    globalMatrix:
+      grantedPermissions:
+        - "Overall/Read:authenticated"
+        - "Job/Read:authenticated"
+        - "View/Read:authenticated"
+        - "Overall/Administer:authenticated"
+  crumbIssuer: "standard"
+  clouds:
+    - docker:
+        name: "docker"
+        dockerApi:
+          dockerHost:
+            uri: "tcp://${DOCKER_AGENT_IP}:2375"
+        templates:
+          - labelString: "icdc_maven"
+            dockerTemplateBase:
+              image: "vdonkor/cicd-ansible"
+            remoteFs: "/home/jenkins"
+            connector:
+              attach:
+                user: "root"
+            instanceCapStr: "10"
+  nodes:
+    - permanent:
+        labelString: "selenium"
+        mode: NORMAL
+        name: "selenium-testing"
+        numExecutors: 4
+        remoteFS: "/home/centos"
+        launcher:
+          SSHLauncher:
+            host: ${DOCKER_AGENT_IP}
+            port: 22
+            credentialsId: ansible_ssh_key
+            launchTimeoutSeconds: 60
+            maxNumRetries: 3
+            retryWaitTime: 30
+            sshHostKeyVerificationStrategy: nonVerifyingKeyVerificationStrategy
+tool:
+  git:
+    installations:
+      - name: Default
+        home: git
+  jdk:
+    installations:
+      - name: jdk11
+        home: /usr/lib/jvm/jre-11-openjdk
+  maven:
+    installations:
+      - name: maven-3.6.1
+        home: /usr/local/maven
+  xvfbInstallation:
+    installations:
+      - name: Xvfb  
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              scope: GLOBAL
+              id: vdonkor
+              username: vdonkor
+              password: ${vdonkor}
+              description: github checkout
+          - basicSSHUserPrivateKey:
+              scope: GLOBAL
+              id: ansible_ssh_key
+              username: centos
+              description: "ssh key for deploying application"
+              privateKeySource:
+                directEntry:
+                  privateKey: ${sshkey}
+          - basicSSHUserPrivateKey:
+              scope: GLOBAL
+              id: server_ssh_key
+              username: centos
+              description: "ssh key for connecting to server as centos"
+              privateKeySource:
+                directEntry:
+                  privateKey: ${sshkey}

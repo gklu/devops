@@ -24,3 +24,6 @@ ansible_winrm_server_cert_validation=ignore
 
 [zabbix]
 10.0.0.132
+
+[localhost]
+127.0.0.1

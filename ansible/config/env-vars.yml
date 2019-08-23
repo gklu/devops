@@ -1,0 +1,4 @@
+docker_agent_ip: 127.0.0.1
+jenkins_ps: jenkins
+vdonkor_ps: conceptonly*
+sshkey: "{{ lookup('file', 'config/devops.pem') }}"

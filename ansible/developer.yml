@@ -1,0 +1,11 @@
+- name: setup developer vm
+  hosts: localhost
+  connection: local
+  become: yes
+
+  vars_files:
+    - config/env-vars.yml
+
+  roles:
+    - docker
+    - jenkins
