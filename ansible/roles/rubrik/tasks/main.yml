@@ -7,3 +7,26 @@
     vm_name: "{{ item }}"
   loop:
     - "{{ vm_name }}"
+
+- set_fact:
+        vm_name: "DC0_H0_VM0"
+
+- name: "Find folder for VM - {{ vm_name }}"
+  vmware_guest_find:
+    hostname: "{{ vcenter_server }}"
+    username: "{{ vcenter_user }}"
+    password: "{{ vcenter_pass }}"
+    validate_certs: False
+    name: "{{ vm_name }}"
+  delegate_to: localhost
+  register: vm_facts
+
+# - vmware_export_ovf:
+#     validate_certs: false
+#     hostname: '{{ vcenter_hostname }}'
+#     username: '{{ vcenter_username }}'
+#     password: '{{ vcenter_password }}'
+#     name: '{{ vm_name }}'
+#     export_with_images: true
+#     export_dir: /path/to/ovf_template/
+#   delegate_to: localhost

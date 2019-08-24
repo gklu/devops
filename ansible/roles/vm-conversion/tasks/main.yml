@@ -1,6 +1,25 @@
+
+- name: create directory for the "{{ vm_name }}"
+  file: 
+    path: "{{item}}"
+    state: directory
+  loop:
+    - /conversion/{{vm_name}}
+    - /var/www/html/{{vm_name}}
+
+- name: grap the machine from IIS server
+  command:  wget -nH -r -l1 --no-parent -A "{{vm_name}}*" {{ download_url }}
+  args:
+    chdir: /conversion/{{vm_name}}
+
+# - name: grap the machine from IIS server
+#   command:  wget -nH -r -l1 --no-parent -A "{{vm_name}}*" http://214.74.65.210
+#   args:
+#     chdir: /conversion/{{vm_name}}
+
 - name: find all ova files in the user directory
   find:
-    paths: "{{ sftp_user_home }}/VMImages"
+    paths: "{{ conversion }}/{{vm_name}}"
     patterns: "*.ova"
   register: ova_matched
 
@@ -17,7 +36,7 @@
 - name: find all iso files in the user directory
   find: 
     patterns: "*.iso"
-    path: "{{ sftp_user_home }}/VMImages"
+    path: "{{ conversion }}/{{vm_name}}"
   register: iso_matched
   # ignore_errors: True  
 
@@ -40,7 +59,7 @@
 - name: extract all the ova
   unarchive:
     src: "{{ item }}"
-    dest: "{{ sftp_user_home }}/VMImages"
+    dest: "{{ conversion }}/{{vm_name}}"
     remote_src: yes
   with_items:
     - "{{ ova_files }}"
@@ -48,7 +67,7 @@
 
 - name: find all vmdk files in the user directory
   find:
-    paths: "{{ sftp_user_home }}/VMImages"
+    paths: "{{ conversion }}/{{vm_name}}"
     patterns: "*.vmdk"
   register: vmdk_matched 
 
@@ -66,7 +85,7 @@
 - name: find all ovf files
   find: 
     patterns: "*.ovf"
-    path: "{{ sftp_user_home }}/VMImages"
+    path: "{{ conversion }}/{{vm_name}}"
   register: ovf_matched
   
 - name: construct list of all ovf files
@@ -81,7 +100,7 @@
 
 - name: parse all the ovf files
   parse_ovf:
-    path: "{{ sftp_user_home }}/VMImages/{{ item | basename }}"
+    path: "{{ conversion }}/{{vm_name}}/{{ item | basename }}"
   with_items:
     - "{{ ovf_files }}"
   register: parsed_ovf
@@ -103,19 +122,19 @@
 
 
 - name: convert all vmdk to qcow2
-  command: qemu-img convert -O qcow2 -o compat=0.10 {{ item | basename }} {{ item | basename | splitext | first }}.qcow2
+  command: qemu-img convert -f vmdk -O qcow2 -o compat=0.10 {{ item | basename }} /var/www/html/{{vm_name}}/{{ item | basename | splitext | first }}.qcow2
   args:
-    chdir: "{{ sftp_user_home }}/VMImages"
+    chdir: "{{ conversion }}/{{vm_name}}"
   with_items:
     - "{{ vmdk_files }}"
   register: conversion_output
   when: vmdk_files|length > 0
 
-- name: move converted files to migrations
-  shell: mv ./*.qcow2 /var/www/html/migrations
-  args:
-    chdir: "{{ sftp_user_home }}/VMImages"
-  when: vmdk_files|length > 0
+# - name: move converted files to migrations
+#   shell: mv ./*.qcow2 /var/www/html/migrations
+#   args:
+#     chdir: "{{ conversion }}/{{vm_name}}"
+#   when: vmdk_files|length > 0
 
 - name: register the isos if one exists
   delegate_to: localhost
@@ -124,7 +143,7 @@
     - name: register the iso
       cs_iso:
         name: "{{ item | basename | regex_replace('(_)','-') }}.iso"
-        url: http://{{ url }}/migrations/{{ item | basename | regex_replace('(_)','-') }}
+        url: http://{{ url }}/{{vm_name}}/{{ item | basename | regex_replace('(_)','-') }}
         os_type: "{{ iso_os_type }}"
         is_featured: yes
         bootable: yes
@@ -137,45 +156,45 @@
         msg: "{{ iso_output }}"
   
 
-- name: register,upload volumes, create instance and attach volume
-  delegate_to: localhost
-  when:
-    - ova_files|length > 0
-    - vmdk_files|length > 0
-  block:
-    - name: register templates 
-      cs_template:
-        name: "{{ instance_name }}"
-        url: "http://{{url}}/migrations/{{ root_volume | splitext | first }}.qcow2"
-        hypervisor: KVM
-        format: QCOW2
-        zone: "{{ zone }}"
-        os_type: "{{vm_os_type}}"
-        is_extractable: yes
-        # is_featured: yes
-        # is_public: yes
+# - name: register,upload volumes, create instance and attach volume
+#   delegate_to: localhost
+#   when:
+#     - ova_files|length > 0
+#     - vmdk_files|length > 0
+#   block:
+#     - name: register templates 
+#       cs_template:
+#         name: "{{ instance_name }}"
+#         url: "http://{{url}}/{{vm_name}}/{{ root_volume | splitext | first }}.qcow2"
+#         hypervisor: KVM
+#         format: QCOW2
+#         zone: "{{ zone }}"
+#         os_type: "{{vm_os_type}}"
+#         is_extractable: yes
+#         # is_featured: yes
+#         # is_public: yes
 
-    - name: upload volume
-      cs_upload_volume:
-        name: "{{ item | splitext | first }}"
-        format: QCOW2
-        url: http://{{url}}/migrations/{{ item | splitext | first }}.qcow2
-        state: upload
-      with_items:
-        - "{{ volumes }}"
-      when: volumes|length > 0
+#     - name: upload volume
+#       cs_upload_volume:
+#         name: "{{ item | splitext | first }}"
+#         format: QCOW2
+#         url: http://{{url}}/migrations/{{ item | splitext | first }}.qcow2
+#         state: upload
+#       with_items:
+#         - "{{ volumes }}"
+#       when: volumes|length > 0
 
-    - name: Poll the template registration till success
-      cs_template:
-        name: "{{ instance_name }}"
-        template_filter: self
-        zone: "{{ zone }}"
-        is_extractable: yes
-        is_public: yes
-      register: poll
-      until: poll.status == "Download Complete"
-      retries: 100
-      delay: 10
+#     - name: Poll the template registration till success
+#       cs_template:
+#         name: "{{ instance_name }}"
+#         template_filter: self
+#         zone: "{{ zone }}"
+#         is_extractable: yes
+#         is_public: yes
+#       register: poll
+#       until: poll.status == "Download Complete"
+#       retries: 100
+#       delay: 10
 
     # - name: create instance from the template
     #   cs_instance:
