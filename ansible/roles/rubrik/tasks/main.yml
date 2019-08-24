@@ -9,7 +9,7 @@
     - "{{ vm_name }}"
 
 - set_fact:
-        vm_name: "DC0_H0_VM0"
+    vm_name: "DC0_H0_VM0"
 
 - name: "Find folder for VM - {{ vm_name }}"
   vmware_guest_find:

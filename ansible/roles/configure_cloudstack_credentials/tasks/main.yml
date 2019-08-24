@@ -1,5 +1,5 @@
 - name: create cloudstack.ini file
   template:
-    src: cloudstack.j2
+    src: config/cloudstack.j2
     dest: ./cloudstack.ini
   delegate_to: 127.0.0.1
