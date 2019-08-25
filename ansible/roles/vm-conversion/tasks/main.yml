@@ -11,6 +11,7 @@
   command:  wget -nH -r -l1 --no-parent -A "{{vm_name}}*" {{ download_url }}
   args:
     chdir: /conversion/{{vm_name}}
+    warn: no
 
 # - name: grap the machine from IIS server
 #   command:  wget -nH -r -l1 --no-parent -A "{{vm_name}}*" http://214.74.65.210
