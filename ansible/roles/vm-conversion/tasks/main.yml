@@ -8,7 +8,8 @@
     - /var/www/html/{{vm_name}}
 
 - name: grap the machine from IIS server
-  command:  wget -nH -r --no-parent -A "{{vm_name}}*" {{ download_url }}
+  #command:  wget -nH -r --no-parent -A "{{vm_name}}*" {{ download_url }}
+  command: wget -r -nH --cut-dirs=5 -nc -A "{{vm_name}}*" {{ download_url }}
   args:
     chdir: /conversion/{{vm_name}}
     warn: no
