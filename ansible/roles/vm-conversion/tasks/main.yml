@@ -8,7 +8,7 @@
     - /var/www/html/{{vm_name}}
 
 - name: grap the machine from IIS server
-  command:  wget -nH -r -l1 --no-parent -A "{{vm_name}}*" {{ download_url }}
+  command:  wget -nH -r --no-parent -A "{{vm_name}}*" {{ download_url }}
   args:
     chdir: /conversion/{{vm_name}}
     warn: no
@@ -20,7 +20,7 @@
 
 - name: find all ova files in the user directory
   find:
-    paths: "{{ conversion }}/{{vm_name}}"
+    paths: "/conversion/{{vm_name}}"
     patterns: "*.ova"
   register: ova_matched
 
@@ -37,7 +37,7 @@
 - name: find all iso files in the user directory
   find: 
     patterns: "*.iso"
-    path: "{{ conversion }}/{{vm_name}}"
+    path: "/conversion/{{vm_name}}"
   register: iso_matched
   # ignore_errors: True  
 
@@ -60,7 +60,7 @@
 - name: extract all the ova
   unarchive:
     src: "{{ item }}"
-    dest: "{{ conversion }}/{{vm_name}}"
+    dest: "/conversion/{{vm_name}}"
     remote_src: yes
   with_items:
     - "{{ ova_files }}"
@@ -68,7 +68,7 @@
 
 - name: find all vmdk files in the user directory
   find:
-    paths: "{{ conversion }}/{{vm_name}}"
+    paths: "/conversion/{{vm_name}}"
     patterns: "*.vmdk"
   register: vmdk_matched 
 
@@ -86,7 +86,7 @@
 - name: find all ovf files
   find: 
     patterns: "*.ovf"
-    path: "{{ conversion }}/{{vm_name}}"
+    path: "/conversion/{{vm_name}}"
   register: ovf_matched
   
 - name: construct list of all ovf files
@@ -101,7 +101,7 @@
 
 - name: parse all the ovf files
   parse_ovf:
-    path: "{{ conversion }}/{{vm_name}}/{{ item | basename }}"
+    path: "/conversion/{{vm_name}}/{{ item | basename }}"
   with_items:
     - "{{ ovf_files }}"
   register: parsed_ovf
@@ -125,7 +125,7 @@
 - name: convert all vmdk to qcow2
   command: qemu-img convert -f vmdk -O qcow2 -o compat=0.10 {{ item | basename }} /var/www/html/{{vm_name}}/{{ item | basename | splitext | first }}.qcow2
   args:
-    chdir: "{{ conversion }}/{{vm_name}}"
+    chdir: "/conversion/{{vm_name}}"
   with_items:
     - "{{ vmdk_files }}"
   register: conversion_output
