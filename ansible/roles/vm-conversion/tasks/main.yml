@@ -4,7 +4,6 @@
     path: "{{item}}"
     state: directory
   loop:
-    - /conversion/{{vm_name}}
     - /var/www/html/{{vm_name}}
 
 # - name: grap the machine from IIS server
@@ -109,12 +108,12 @@
     vm_os_type: "{{ parsed_ovf.results[0].os_type }}"
     # os_type: "{{ parsed_ovf.results| map(attribute='os_type')|first }}"
     volumes: "{{ parsed_ovf.results[0].volumes|map(attribute='file')|list}}"
-  when: ova_files|length > 0
+  when: ovf_files|length > 0
 
 - name: display vm facts
   debug:
     msg: "{{ instance_name }} - {{ vm_os_type }}- {{ root_volume }} - {{ volumes }}"
-  when: ova_files|length > 0
+  when: ovf_files|length > 0
 
 
 - name: convert all vmdk to qcow2
