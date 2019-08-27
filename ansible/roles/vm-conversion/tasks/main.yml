@@ -7,12 +7,12 @@
     - /conversion/{{vm_name}}
     - /var/www/html/{{vm_name}}
 
-- name: grap the machine from IIS server
-  #command:  wget -nH -r --no-parent -A "{{vm_name}}*" {{ download_url }}
-  command: wget -r -nH --cut-dirs=5 -nc -A "{{vm_name}}*" {{ download_url }}
-  args:
-    chdir: /conversion/{{vm_name}}
-    warn: no
+# - name: grap the machine from IIS server
+#   #command:  wget -nH -r --no-parent -A "{{vm_name}}*" {{ download_url }}
+#   command: wget -r -nH --cut-dirs=5 -nc -A "{{vm_name}}*" {{ download_url }}
+#   args:
+#     chdir: /conversion/{{vm_name}}
+#     warn: no
 
 # - name: grap the machine from IIS server
 #   command:  wget -nH -r -l1 --no-parent -A "{{vm_name}}*" http://214.74.65.210
@@ -21,8 +21,8 @@
 
 - name: find all ova files in the user directory
   find:
-    paths: "/conversion/{{vm_name}}"
-    patterns: "*.ova"
+    paths: "/conversion/download"
+    patterns: "{{vm_name}}*.ova"
   register: ova_matched
 
 - name: construct list of all ova files
@@ -37,8 +37,8 @@
 
 - name: find all iso files in the user directory
   find: 
-    patterns: "*.iso"
-    path: "/conversion/{{vm_name}}"
+    patterns: "{{vm_name}}*.iso"
+    path: "/conversion/download"
   register: iso_matched
   # ignore_errors: True  
 
@@ -52,12 +52,6 @@
   with_items:
     - "{{ iso_files }}"
 
-# # - name: convert the ova to qcow2
-# #   command:  virt-v2v -i ova {{ item }} -o libvirt -of qcow2 -os migration_pool
-# #   with_items:
-# #     - "{{ ova_matched.files | map(attribute='path')|list }}"
-# #   register: virt_v2v_output
-
 - name: extract all the ova
   unarchive:
     src: "{{ item }}"
@@ -69,8 +63,8 @@
 
 - name: find all vmdk files in the user directory
   find:
-    paths: "/conversion/{{vm_name}}"
-    patterns: "*.vmdk"
+    paths: "/conversion/download"
+    patterns: "{{vm_name}}*.vmdk"
   register: vmdk_matched 
 
 
@@ -86,8 +80,8 @@
 
 - name: find all ovf files
   find: 
-    patterns: "*.ovf"
-    path: "/conversion/{{vm_name}}"
+    patterns: "{{vm_name}}*.ovf"
+    path: "/conversion/download"
   register: ovf_matched
   
 - name: construct list of all ovf files
@@ -102,7 +96,7 @@
 
 - name: parse all the ovf files
   parse_ovf:
-    path: "/conversion/{{vm_name}}/{{ item | basename }}"
+    path: "/conversion/download/{{ item | basename }}"
   with_items:
     - "{{ ovf_files }}"
   register: parsed_ovf
@@ -126,7 +120,7 @@
 - name: convert all vmdk to qcow2
   command: qemu-img convert -f vmdk -O qcow2 -o compat=0.10 {{ item | basename }} /var/www/html/{{vm_name}}/{{ item | basename | splitext | first }}.qcow2
   args:
-    chdir: "/conversion/{{vm_name}}"
+    chdir: "/conversion/download"
   with_items:
     - "{{ vmdk_files }}"
   register: conversion_output
