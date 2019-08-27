@@ -4,6 +4,7 @@
     path: "{{item}}"
     state: directory
   loop:
+    - /conversion/{{vm_name}}
     - /var/www/html/{{vm_name}}
 
 # - name: grap the machine from IIS server
@@ -93,9 +94,15 @@
   with_items:
     - "{{ ovf_files }}"
 
+- name: copy ovf to /conversion/{{ vm_name }} to avoid network issues
+  copy:
+    src: "/conversion/download/{{ item | basename }}"
+    dest: /conversion/{{ vm_name }}/{{ item | basename }}
+    remote_src: yes
+
 - name: parse all the ovf files
   parse_ovf:
-    path: "/conversion/download/{{ item | basename }}"
+    path: "/conversion/{{vm_name}}/{{ item | basename }}"
   with_items:
     - "{{ ovf_files }}"
   register: parsed_ovf
