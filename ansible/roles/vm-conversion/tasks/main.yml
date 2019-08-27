@@ -99,7 +99,9 @@
     src: "/conversion/download/{{ item | basename }}"
     dest: /conversion/{{ vm_name }}/{{ item | basename }}
     remote_src: yes
-
+  with_items:
+    - "{{ ovf_files }}"
+    
 - name: parse all the ovf files
   parse_ovf:
     path: "/conversion/{{vm_name}}/{{ item | basename }}"
