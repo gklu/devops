@@ -100,7 +100,7 @@
   with_items:
     - "{{ ovf_files }}"
   register: parsed_ovf
-  when: ova_files|length > 0
+  when: ovf_files|length > 0
 
 - name: set instance facts
   set_fact:
