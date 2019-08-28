@@ -1,0 +1,6 @@
+- name: Test api call
+  hosts: cloudstack
+  connection: local
+  roles:
+    - vm-conversion-test
+    

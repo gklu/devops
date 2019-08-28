@@ -6,8 +6,10 @@ import xml.etree.ElementTree as ET
 
 # -- OVF parsing --
 
+
 class OVFData():
     '''OFV meta data - the data is only available after calling OFVData.parse'''
+
     def __init__(self, file=None):
         '''OVF meta data initializer'''
         # namespaces, dflt is default namespace xmlns, others are xmlns:<ns>
@@ -188,6 +190,7 @@ class OVFData():
             '103': 'Microsoft Windows Server 2008 R2',
             '105': 'Microsoft Windows 7',
             '111': 'Microsoft Windows Server 2011',
+            '112': 'Microsoft Windows Server 2012 (64-bit)',
             '113': 'Microsoft Windows Server 2012',
             '114': 'Microsoft Windows 8',
             '115': 'Microsoft Windows 8 (64-bit)',
@@ -258,7 +261,7 @@ class OVFData():
             # reference to file references above
             fref = ref.get(self._nsattr('fileRef', 'ovf'))
             # the virt. HW section refers to '/disk/vmdisk1' not 'vmdisk1'
-            diskid = 'ovf:/disk/'+ref.get(self._nsattr('diskId', 'ovf'))
+            diskid = 'ovf:/disk/' + ref.get(self._nsattr('diskId', 'ovf'))
             # we resolve fref here, we only need the name from now on
             disks[diskid] = {'capacity': capacity, 'file': files[fref]}
         print("found disks {}".format(disks))
@@ -317,8 +320,6 @@ class OVFData():
         self.nics = [devices[dev_no] for dev_no in sorted(devices)]
         print("nics : {}".format(self.nics))
 
-
     # end _collect_nic_data()
 
 # end class OVFData
-
