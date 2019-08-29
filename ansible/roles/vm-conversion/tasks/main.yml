@@ -4,7 +4,7 @@
     path: "{{item}}"
     state: directory
   loop:
-    - /conversion/{{vm_name}}
+    # - /conversion/{{vm_name}}
     - /var/www/html/{{vm_name}}
 
 # - name: grap the machine from IIS server
