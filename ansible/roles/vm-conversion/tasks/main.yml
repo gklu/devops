@@ -163,18 +163,19 @@
 - name: register,upload volumes, create instance and attach volume
   delegate_to: localhost
   when:
-    - ova_files|length > 0
+    - ovf_files|length > 0
     - vmdk_files|length > 0
   block:
     - name: register templates 
       cs_template:
+        display_text: "{{ instance_name }}"
         name: "{{ instance_name }}"
         url: "http://{{url}}/{{vm_name}}/{{ root_volume | splitext | first }}.qcow2"
         hypervisor: KVM
         format: QCOW2
         zone: "{{ zone }}"
         os_type: "{{vm_os_type}}"
-        is_extractable: yes
+        # is_extractable: yes
         # is_featured: yes
         # is_public: yes
 
