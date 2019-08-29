@@ -178,7 +178,7 @@
         # is_extractable: yes
         # is_featured: yes
         # is_public: yes
-
+        
     - name: upload volume
       cs_upload_volume:
         name: "{{ item | splitext | first }}"
