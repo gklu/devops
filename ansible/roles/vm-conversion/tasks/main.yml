@@ -160,70 +160,70 @@
         msg: "{{ iso_output }}"
   
 
-# - name: register,upload volumes, create instance and attach volume
-#   delegate_to: localhost
-#   when:
-#     - ova_files|length > 0
-#     - vmdk_files|length > 0
-#   block:
-#     - name: register templates 
-#       cs_template:
-#         name: "{{ instance_name }}"
-#         url: "http://{{url}}/{{vm_name}}/{{ root_volume | splitext | first }}.qcow2"
-#         hypervisor: KVM
-#         format: QCOW2
-#         zone: "{{ zone }}"
-#         os_type: "{{vm_os_type}}"
-#         is_extractable: yes
-#         # is_featured: yes
-#         # is_public: yes
+- name: register,upload volumes, create instance and attach volume
+  delegate_to: localhost
+  when:
+    - ova_files|length > 0
+    - vmdk_files|length > 0
+  block:
+    - name: register templates 
+      cs_template:
+        name: "{{ instance_name }}"
+        url: "http://{{url}}/{{vm_name}}/{{ root_volume | splitext | first }}.qcow2"
+        hypervisor: KVM
+        format: QCOW2
+        zone: "{{ zone }}"
+        os_type: "{{vm_os_type}}"
+        is_extractable: yes
+        # is_featured: yes
+        # is_public: yes
 
-#     - name: upload volume
-#       cs_upload_volume:
-#         name: "{{ item | splitext | first }}"
-#         format: QCOW2
-#         url: http://{{url}}/migrations/{{ item | splitext | first }}.qcow2
-#         state: upload
-#       with_items:
-#         - "{{ volumes }}"
-#       when: volumes|length > 0
+    - name: upload volume
+      cs_upload_volume:
+        name: "{{ item | splitext | first }}"
+        format: QCOW2
+        url: http://{{url}}/{{vm_name}}/{{ item | splitext | first }}.qcow2
+        state: upload
+      with_items:
+        - "{{ volumes }}"
+      when: volumes|length > 0
 
-#     - name: Poll the template registration till success
-#       cs_template:
-#         name: "{{ instance_name }}"
-#         template_filter: self
-#         zone: "{{ zone }}"
-#         is_extractable: yes
-#         is_public: yes
-#       register: poll
-#       until: poll.status == "Download Complete"
-#       retries: 100
-#       delay: 10
+    - name: Poll the template registration till success
+      cs_template:
+        name: "{{ instance_name }}"
+        template_filter: self
+        zone: "{{ zone }}"
+        is_extractable: yes
+        is_public: yes
+      register: poll
+      until: poll.status == "Download Complete"
+      retries: 100
+      delay: 10
 
-    # - name: create instance from the template
-    #   cs_instance:
-    #     name: "{{ instance_name | regex_replace('(_)','-') }}"
-    #     display_name: "{{ instance_name }}"
-    #     template: "{{ instance_name }}"
-    #     network: app
-    #     service_offering: t2.large
-    #     state: started
-    #   register: vm_state
+    - name: create instance from the template
+      cs_instance:
+        name: "{{ instance_name | regex_replace('(_)','-') }}"
+        display_name: "{{ instance_name }}"
+        template: "{{ instance_name }}"
+        network: "{{network}}"
+        service_offering: "{{svc_offering}}"
+        state: started
+      register: vm_state
     
-    # - name: show vm state
-    #   debug:
-    #     msg: "{{ vm_state }}"
+    - name: show vm state
+      debug:
+        msg: "{{ vm_state }}"
 
-    # - name: attach all the volumes to instance 
-    #   cs_volume:
-    #     name:  "{{ item | splitext | first }}"
-    #     vm: "{{ instance_name }}"
-    #     state: attached
-    #   with_items:
-    #     - "{{ volumes }}"
-    #   when:
-    #     - vm_state.state == 'Running'
-    #     - volumes|length > 0
+    - name: attach all the volumes to instance 
+      cs_volume:
+        name:  "{{ item | splitext | first }}"
+        vm: "{{ instance_name }}"
+        state: attached
+      with_items:
+        - "{{ volumes }}"
+      when:
+        - vm_state.state == 'Running'
+        - volumes|length > 0
 
 
 
