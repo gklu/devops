@@ -175,27 +175,34 @@
         format: QCOW2
         zone: "{{ zone }}"
         os_type: "{{vm_os_type}}"
-        # is_extractable: yes
-        # is_featured: yes
-        # is_public: yes
+    
+    - name: display url for diagnosis
+      debug: 
+        msg: http://{{url}}/{{vm_name}}/{{ root_volume | splitext | first }}.qcow2
         
     - name: upload volume
       cs_upload_volume:
         name: "{{ item | splitext | first }}"
         format: QCOW2
-        url: http://{{url}}/{{vm_name}}/{{ item | splitext | first }}.qcow2
+        url: "http://{{url}}/{{vm_name}}/{{ item | splitext | first }}.qcow2"
         state: upload
       with_items:
         - "{{ volumes }}"
       when: volumes|length > 0
+
+    - name: display url for diagnosis
+      debug: 
+        msg: http://{{url}}/{{vm_name}}/{{ item | splitext | first }}.qcow2
+      with_items:
+        - "{{ volumes }}"
 
     - name: Poll the template registration till success
       cs_template:
         name: "{{ instance_name }}"
         template_filter: self
         zone: "{{ zone }}"
-        is_extractable: yes
-        is_public: yes
+        # is_extractable: yes
+        # is_public: yes
       register: poll
       until: poll.status == "Download Complete"
       retries: 100
