@@ -216,6 +216,7 @@
         network: "{{network}}"
         service_offering: "{{svc_offering}}"
         state: started
+        zone: "{{ zone }}"
       register: vm_state
     
     - name: show vm state
