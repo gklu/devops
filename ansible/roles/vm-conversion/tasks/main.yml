@@ -180,12 +180,24 @@
       debug: 
         msg: http://{{url}}/{{vm_name}}/{{ root_volume | splitext | first }}.qcow2
         
-    - name: upload volume
-      cs_upload_volume:
+    # - name: upload volume
+    #   cs_upload_volume:
+    #     name: "{{ item | splitext | first }}"
+    #     format: QCOW2
+    #     url: "http://{{url}}/{{vm_name}}/{{ item | splitext | first }}.qcow2"
+    #     state: upload
+    #     zone: "{{ zone }}"
+    #   with_items:
+    #     - "{{ volumes }}"
+    #   when: volumes|length > 0
+
+    - name: Create new volume by downloading source volume
+      cs_volume:
+        state: uploaded
         name: "{{ item | splitext | first }}"
         format: QCOW2
         url: "http://{{url}}/{{vm_name}}/{{ item | splitext | first }}.qcow2"
-        state: upload
+        zone: "{{ zone }}"
       with_items:
         - "{{ volumes }}"
       when: volumes|length > 0
@@ -201,11 +213,9 @@
         name: "{{ instance_name }}"
         template_filter: self
         zone: "{{ zone }}"
-        # is_extractable: yes
-        # is_public: yes
       register: poll
       until: poll.status == "Download Complete"
-      retries: 100
+      retries: 900
       delay: 10
 
     - name: create instance from the template
