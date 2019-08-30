@@ -191,13 +191,14 @@
     #     - "{{ volumes }}"
     #   when: volumes|length > 0
 
-    - name: Create new volume by downloading source volume
+    - name: upload associated volumes
       cs_volume:
         state: uploaded
         name: "{{ item | splitext | first }}"
         format: QCOW2
         url: "http://{{url}}/{{vm_name}}/{{ item | splitext | first }}.qcow2"
         zone: "{{ zone }}"
+        disk_offering: "{{disk_offering}}"
       with_items:
         - "{{ volumes }}"
       when: volumes|length > 0
@@ -237,6 +238,7 @@
       cs_volume:
         name:  "{{ item | splitext | first }}"
         vm: "{{ instance_name }}"
+        disk_offering: "{{disk_offering}}"
         state: attached
       with_items:
         - "{{ volumes }}"
