@@ -9,6 +9,6 @@
     - url: "214.74.65.205"
   roles:
     - configure_cloudstack_credentials
-    - vm-conversion
+    - vm-conversion-ip
 
     
