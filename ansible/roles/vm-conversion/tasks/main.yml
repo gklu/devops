@@ -240,6 +240,7 @@
         vm: "{{ instance_name }}"
         disk_offering: "{{disk_offering}}"
         state: attached
+        zone: "{{ zone }}"
       with_items:
         - "{{ volumes }}"
       when:
