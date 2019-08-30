@@ -237,7 +237,7 @@
     - name: attach all the volumes to instance 
       cs_volume:
         name:  "{{ item | splitext | first }}"
-        vm: "{{ instance_name }}"
+        vm: "{{ instance_name | regex_replace('(_)','-') }}"
         disk_offering: "{{disk_offering}}"
         state: attached
         zone: "{{ zone }}"
