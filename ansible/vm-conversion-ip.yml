@@ -1,0 +1,14 @@
+---
+- name: Perform vm conversion
+  hosts: "{{ host  }}"
+  become: yes
+  # become_user: root
+  # become_method: sudo
+  vars:
+    - download_url: https://s3.amazonaws.com/s/downloads/
+    - url: "214.74.65.205"
+  roles:
+    - configure_cloudstack_credentials
+    - vm-conversion
+
+    
