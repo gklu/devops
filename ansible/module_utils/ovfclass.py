@@ -187,7 +187,7 @@ class OVFData():
             '75': 'Windows Embedded for Point of Service',
             '76': 'Windows Server 2008',
             '77': 'Windows Server 2008 (64-Bit)',
-            '103': 'Windows Server 2008 R2',
+            '103': 'Windows Server 2008 R2 (64-bit)',
             '105': 'Microsoft Windows 7',
             '111': 'Windows Server 2011',
             '112': 'Windows Server 2012 (64-bit)',
