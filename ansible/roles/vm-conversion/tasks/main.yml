@@ -21,7 +21,7 @@
 
 - name: find all ova files in the user directory
   find:
-    paths: "/conversion/download"
+    path: "/conversion/download"
     patterns: "{{vm_name}}*.ova"
   register: ova_matched
 
@@ -63,7 +63,7 @@
 
 - name: find all vmdk files in the user directory
   find:
-    paths: "/conversion/download"
+    path: "/conversion/download"
     patterns: "{{vm_name}}*.vmdk"
   register: vmdk_matched 
 

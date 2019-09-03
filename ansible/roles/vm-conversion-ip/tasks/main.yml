@@ -174,7 +174,7 @@
         hypervisor: KVM
         format: QCOW2
         zone: "{{ zone }}"
-        os_type: "{{vm_os_type}}"
+        os_type: "{{os_type}}"
     
     - name: display url for diagnosis
       debug: 
