@@ -12,7 +12,7 @@ services:
       - jenkins-password
     restart: always
     volumes:
-      - /local/jenkins::/var/jenkins_home
+      - /local/jenkins:/var/jenkins_home
  
 secrets:
   jenkins-user:

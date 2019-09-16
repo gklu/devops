@@ -1,0 +1,86 @@
+- name: install system packages
+  yum:
+    name:
+      - mariadb-server
+      - mariadb
+      - gcc
+      - mariadb-devel
+      - python2-devel
+      - firewalld
+    state: installed
+
+- name: start firewalld
+  service:
+    name: firewalld 
+    state: restarted
+    enabled: yes
+
+- name: open mariadb port
+  firewalld:
+    zone: public
+    port: 3306/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: start and enabled mariadb
+  service:
+    name: mariadb
+    state: restarted
+    enabled: yes
+
+# - name: delete anonymous server user
+#   mysql_user:
+#     login_user: root
+#     login_password: '{{ mysql_root }}'
+#     check_implicit_admin: yes
+#     user: ""
+#     host: "{{ item }}"
+#     state: absent
+#   with_items:
+#    - ""
+#    - "{{ ansible_nodename }}"
+#    - localhost
+
+- name: install mysql-connector-python 
+  command: easy_install  MySQL-python
+
+- name: Change root user password on first run
+  mysql_user: 
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    check_implicit_admin: yes
+    name: root
+    password: "{{ mysql_root_password }}"
+    priv: "*.*:ALL,GRANT"
+    host: "{{ item }}"
+  with_items:
+    - "{{ ansible_nodename }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: create a new rubrik billing database
+  mysql_db:
+    name: rubrik_billing
+    state: present
+    login_user: root
+    login_password: "{{mysql_root_password}}"
+
+- name: create rubrik user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: rubrik
+    password: "{{ mysql_root_password }}"
+    priv: 'rubrik_billing.*:ALL'
+    state: present
+    host: "{{ item }}"
+  with_items:
+    - "{{ ansible_nodename }}"
+    - 127.0.0.1
+    - ::1
+    - "%"
+    - localhost
+
+

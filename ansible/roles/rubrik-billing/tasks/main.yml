@@ -1,0 +1,11 @@
+---
+# tasks file for rubrik-billing
+- name: get script over
+  template:
+    src: rubrik.py.j2
+    dest: "{{ansible_env.HOME}}"
+    
+- name: run billing script
+  command: python rubrik.py
+  args:
+    chdir: "{{ansible_env.HOME}}"

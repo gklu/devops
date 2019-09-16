@@ -1,0 +1,9 @@
+---
+- name: setup mariadb
+  hosts: "{{ host  }}"
+  become: yes
+  remote_user: milclouduser
+
+  roles:
+    - mariadb
+ 
