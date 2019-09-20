@@ -150,6 +150,7 @@ class OVFData():
         }   # end osTypeOther
         self.osTypeLinux = {
             '36': 'LINUX',
+            '78': 'FreeBSD (64-bit)',
             '79': 'RedHat Enterprise Linux',
             '80': 'RedHat Enterprise Linux (64-Bit)',
             '82': 'SUSE',
